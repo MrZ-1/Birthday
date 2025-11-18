@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Surprise 🎁</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    background: linear-gradient(135deg, #ffb6da, #ffd7ef);
+    height: 100vh;
+    overflow: hidden;
+    font-family: "Comic Sans MS";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+#gift {
+    font-size: 70px;
+    animation: bounce 1.2s infinite;
+}
+
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0); }
+}
+
+.balloon {
+    position: absolute;
+    font-size: 40px;
+    animation: rise 5s linear infinite;
+}
+
+@keyframes rise {
+    from { transform: translateY(150px); opacity: 1; }
+    to   { transform: translateY(-600px); opacity: 0; }
+}
+
+#msg {
+    font-size: 22px;
+    color: white;
+    text-shadow: 0 0 10px #ff69b4;
+    display: none;
+    margin-top: 20px;
+}
+</style>
+
+</head>
+<body>
+
+<div id="gift" onclick="showSurprise()">🎁</div>
+<p>Tap the gift!</p>
+
+<div id="msg">🎀 You are the cutest sister ever, Sofii! 💗  
+Wishing you all the happiness in the world! 🎀✨</div>
+
+<script>
+function showSurprise() {
+    document.getElementById("msg").style.display = "block";
+
+    for(let i=0; i<25; i++){
+        let b = document.createElement("div");
+        b.className = "balloon";
+        b.innerHTML = "🎈";
+        b.style.left = Math.random()*100 + "%";
+        document.body.appendChild(b);
+        setTimeout(()=>{ b.remove(); }, 5000);
+    }
+}
+</script>
+
+</body>
+</html>
