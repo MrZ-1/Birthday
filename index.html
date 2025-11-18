@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Happy Birthday Sofii!</title>
+<style>
+    body {
+        background: #ffe6f2;
+        font-family: "Comic Sans MS", cursive;
+        text-align: center;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        font-size: 42px;
+        color: #ff5fa2;
+        margin-top: 40px;
+        text-shadow: 0 0 12px #ffb3d9;
+        animation: glow 1.5s infinite alternate;
+    }
+
+    @keyframes glow {
+        from { text-shadow: 0 0 10px #ff9cc9; }
+        to   { text-shadow: 0 0 25px #ff66b3; }
+    }
+
+    p {
+        font-size: 18px;
+        width: 80%;
+        margin: 20px auto;
+        color: #ff4d94;
+        background: #fff0f7;
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px #ffcce6;
+        line-height: 1.6;
+    }
+
+    .balloon {
+        position: absolute;
+        font-size: 40px;
+        animation: floatUp 6s ease-in infinite;
+    }
+
+    @keyframes floatUp {
+        0%   { bottom: -50px; opacity: 0.8; }
+        100% { bottom: 110%; opacity: 0; }
+    }
+</style>
+</head>
+
+<body>
+
+<h1>🎀 Happy Birthday, Sofii! 🎀</h1>
+
+<p>
+Today is all about you, Sofii — your smile, your warmth, your sweetness, 
+and the happiness you bring to the people around you.  
+May your year be filled with calm days, cozy nights, soft music, 
+and all the love your heart can hold.  
+You deserve every good moment the world has to offer.  
+Happy Birthday, cutie sister! 💖🎂✨
+</p>
+
+<!-- Lofi Birthday Music -->
+<audio autoplay loop>
+  <source src="https://files.catbox.moe/6d0v0c.mp3" type="audio/mp3">
+</audio>
+
+<script>
+const balloons = ["🎈","💗","🎀","💖","🌸"];
+
+for (let i = 0; i < 20; i++) {
+    let b = document.createElement("span");
+    b.className = "balloon";
+    b.innerHTML = balloons[Math.floor(Math.random() * balloons.length)];
+    b.style.left = Math.random() * 100 + "vw";
+    b.style.animationDuration = (4 + Math.random() * 3) + "s";
+    document.body.appendChild(b);
+}
+</script>
+
+</body>
+</html>
