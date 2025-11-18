@@ -7,30 +7,88 @@
 <style>
 body {
     margin: 0;
-    background: #ffd1ec;
+    padding: 0;
+    background: linear-gradient(135deg, #ffc7e8, #ffdff2);
     font-family: "Comic Sans MS";
     text-align: center;
-    padding: 25px;
+    overflow-x: hidden;
 }
 
-img {
-    width: 90%;
-    max-width: 330px;
+/* Title */
+h2 {
+    margin-top: 20px;
+    font-size: 28px;
+    color: #ff4d9d;
+    text-shadow: 0 0 10px #ffb4d8;
+}
+
+/* Slider container */
+.slider {
+    position: relative;
+    width: 100%;
+    max-width: 350px;
+    margin: 30px auto;
+    overflow: hidden;
     border-radius: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 0 20px #ff7fcd;
+    box-shadow: 0 0 30px rgba(255, 100, 160, 0.4);
 }
 
-/* Back / Next buttons */
-button {
+/* Each slide */
+.slide {
+    min-width: 100%;
+    transition: 0.7s ease-in-out;
+}
+
+/* Images */
+.slide img {
+    width: 100%;
+    border-radius: 20px;
+}
+
+/* Arrow buttons */
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 28px;
+    background: white;
+    border-radius: 50%;
+    padding: 8px 12px;
+    color: #ff4d9d;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(255, 100, 160, 0.4);
+    border: none;
+}
+
+.left { left: 10px; }
+.right { right: 10px; }
+
+/* Heart indicators */
+.dots {
     margin-top: 15px;
+}
+
+.dot {
+    font-size: 18px;
+    color: #ff9bc7;
+    margin: 5px;
+    transition: 0.3s;
+}
+
+.active-dot {
+    color: #ff4d9d;
+    font-size: 22px;
+}
+    
+button {
+    margin-top: 20px;
     padding: 12px 30px;
     background: #ff7bbf;
     color: white;
-    border: none;
     border-radius: 20px;
+    border: none;
     font-size: 16px;
-    box-shadow: 0 0 10px #ff88cc;
+    box-shadow: 0 0 15px #ff88cc;
 }
 </style>
 
@@ -39,15 +97,67 @@ button {
 
 <h2>📸 Cute Moments 📸</h2>
 
-<!-- Your 6 uploaded photos -->
-<img src="IMG_8980.jpeg">
-<img src="IMG_8981.jpeg">
-<img src="IMG_8982.jpeg">
-<img src="IMG_8983.jpeg">
-<img src="IMG_8984.jpeg">
-<img src="IMG_8985.jpeg">
+<div class="slider" id="slider">
+
+    <div class="slide"><img src="IMG_8980.jpeg"></div>
+    <div class="slide"><img src="IMG_8981.jpeg"></div>
+    <div class="slide"><img src="IMG_8982.jpeg"></div>
+    <div class="slide"><img src="IMG_8983.jpeg"></div>
+    <div class="slide"><img src="IMG_8984.jpeg"></div>
+    <div class="slide"><img src="IMG_8985.jpeg"></div>
+
+    <button class="arrow left" onclick="prev()">❮</button>
+    <button class="arrow right" onclick="next()">❯</button>
+</div>
+
+<!-- Heart indicators -->
+<div class="dots" id="dots"></div>
 
 <a href="surprise.html"><button>Final Surprise 🎀</button></a>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const slider = document.getElementById('slider');
+const dots = document.getElementById('dots');
+
+// Create heart indicators
+slides.forEach((_, i) => {
+    let d = document.createElement("span");
+    d.innerHTML = "💗";
+    d.className = "dot";
+    if(i === 0) d.classList.add("active-dot");
+    dots.appendChild(d);
+});
+
+function updateDots() {
+    const dotElements = document.querySelectorAll('.dot');
+    dotElements.forEach((dot, index) => {
+        dot.classList.toggle("active-dot", index === current);
+    });
+}
+
+function showSlide() {
+    slider.scrollTo({
+        left: current * slider.clientWidth,
+        behavior: "smooth"
+    });
+    updateDots();
+}
+
+function next() {
+    current = (current + 1) % slides.length;
+    showSlide();
+}
+
+function prev() {
+    current = (current - 1 + slides.length) % slides.length;
+    showSlide();
+}
+
+// Auto-slide every 4 seconds
+setInterval(next, 4000);
+</script>
 
 </body>
 </html>
