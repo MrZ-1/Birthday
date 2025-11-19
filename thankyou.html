@@ -1,94 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Thank You 💖</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank You 💗</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-:root{
-  --bg1:#ffdde9;
-  --bg2:#ffd1ec;
-}
-html,body{height:100%;margin:0;padding:0;}
-
-body{
-  font-family:"Comic Sans MS", system-ui;
-  background: linear-gradient(135deg,var(--bg1),var(--bg2));
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  overflow:hidden;
-}
-
-/* Container */
-.container{
-  max-width:600px;
-  padding:24px;
-}
-
-/* Heading */
-#title{
-  font-size:30px;
-  color:white;
-  text-shadow:0 0 18px rgba(255,80,150,0.6);
-  margin-bottom:10px;
-}
-
-/* Sub text */
-#sub{
-  font-size:18px;
-  color:#ffeaf7;
-  margin-bottom:22px;
-}
-
-/* Floating particles */
-.particle{
-  position:fixed;
-  pointer-events:none;
-  user-select:none;
-}
-
-@keyframes rise{
-  0%   {transform:translateY(0) scale(1); opacity:1}
-  100% {transform:translateY(-180px) scale(1.4); opacity:0}
-}
-
-.heart{
-  font-size:32px;
-  animation: rise 4s linear forwards;
-}
-
-.butter{
-  font-size:40px;
-  animation: rise 4.8s linear forwards;
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(145deg,#180017,#2b0030,#4a005a);
+    font-family: "Comic Sans MS";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <div id="title">💖 Thank You, Sofii!</div>
-  <div id="sub">Your wish has been received — and kept safe in the stars ✨</div>
-  <div style="font-size:70px;">🌟</div>
+<div>
+    <h2>✨ Your wish has been sent ✨</h2>
+    <p style="opacity:.9;">Thank you for making a wish 💗</p>
 </div>
-
-<script>
-/* Spawn particles */
-function spawnParticle(emoji, cls){
-  const el = document.createElement("div");
-  el.className = cls + " particle";
-  el.innerHTML = emoji;
-  el.style.left = Math.random()*100 + "vw";
-  el.style.bottom = "-8vh";
-  document.body.appendChild(el);
-  setTimeout(()=>el.remove(), 4500);
-}
-
-setInterval(()=>{ spawnParticle("💗","heart"); }, 600);
-setInterval(()=>{ spawnParticle("🦋","butter"); }, 900);
-</script>
 
 </body>
 </html>
