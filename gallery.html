@@ -7,156 +7,138 @@
 <style>
 body {
     margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, #ffc7e8, #ffdff2);
+    background: linear-gradient(145deg,#180017,#2b0030,#4a005a);
     font-family: "Comic Sans MS";
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+    color: white;
     overflow-x: hidden;
 }
 
 /* Title */
 h2 {
-    margin-top: 20px;
-    font-size: 28px;
-    color: #ff4d9d;
-    text-shadow: 0 0 10px #ffb4d8;
+    font-size: 26px;
+    text-align: center;
+    color: #ffb9f2;
+    text-shadow: 0 0 12px #ff4dc1;
+    margin-bottom: 5px;
 }
 
-/* Slider container */
-.slider {
+.sub {
+    font-size: 15px;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+/* Card Stack Container */
+.gallery-container {
+    width: 90%;
+    max-width: 330px;
+    height: 460px;
     position: relative;
+    overflow: visible;
+    touch-action: pan-x;
+}
+
+/* Each card */
+.card {
     width: 100%;
-    max-width: 350px;
-    margin: 30px auto;
-    overflow: hidden;
+    height: 100%;
     border-radius: 20px;
-    box-shadow: 0 0 30px rgba(255, 100, 160, 0.4);
-}
-
-/* Each slide */
-.slide {
-    min-width: 100%;
-    transition: 0.7s ease-in-out;
-}
-
-/* Images */
-.slide img {
-    width: 100%;
-    border-radius: 20px;
-}
-
-/* Arrow buttons */
-.arrow {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 28px;
-    background: white;
-    border-radius: 50%;
-    padding: 8px 12px;
-    color: #ff4d9d;
-    font-weight: bold;
-    box-shadow: 0 0 15px rgba(255, 100, 160, 0.4);
-    border: none;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 0 25px #ff4dc1, 0 0 40px #c300ff;
+    transition: transform 0.35s ease, opacity 0.35s ease;
 }
 
-.left { left: 10px; }
-.right { right: 10px; }
+/* Stacked effect */
+.card:nth-child(1) { transform: scale(1) rotate(0deg); z-index: 6; }
+.card:nth-child(2) { transform: scale(.97) rotate(-2deg); z-index: 5; }
+.card:nth-child(3) { transform: scale(.94) rotate(1deg);  z-index: 4; }
+.card:nth-child(4) { transform: scale(.91) rotate(-3deg); z-index: 3; }
+.card:nth-child(5) { transform: scale(.88) rotate(2deg);  z-index: 2; }
+.card:nth-child(6) { transform: scale(.85) rotate(-1deg); z-index: 1; }
 
-/* Heart indicators */
-.dots {
-    margin-top: 15px;
-}
-
-.dot {
-    font-size: 18px;
-    color: #ff9bc7;
-    margin: 5px;
-    transition: 0.3s;
-}
-
-.active-dot {
-    color: #ff4d9d;
-    font-size: 22px;
-}
-    
-button {
-    margin-top: 20px;
-    padding: 12px 30px;
-    background: #ff7bbf;
-    color: white;
-    border-radius: 20px;
-    border: none;
+/* Bottom text */
+.bottom-text {
+    margin-top: 25px;
     font-size: 16px;
-    box-shadow: 0 0 15px #ff88cc;
+    color: #ffc9ff;
+    text-shadow: 0 0 10px #ff4dc1;
 }
 </style>
-
 </head>
+
 <body>
 
-<h2>📸 Cute Moments 📸</h2>
+<h2>Some Sweet Moments 💗</h2>
+<div class="sub">(Swipe the cards)</div>
 
-<div class="slider" id="slider">
+<div class="gallery-container" id="gallery">
 
-    <div class="slide"><img src="IMG_8980.jpeg"></div>
-    <div class="slide"><img src="IMG_8981.jpeg"></div>
-    <div class="slide"><img src="IMG_8982.jpeg"></div>
-    <div class="slide"><img src="IMG_8983.jpeg"></div>
-    <div class="slide"><img src="IMG_8984.jpeg"></div>
-    <div class="slide"><img src="IMG_8985.jpeg"></div>
+    <div class="card" style="background-image:url('IMG_8980.jpeg')"></div>
+    <div class="card" style="background-image:url('IMG_8981.jpeg')"></div>
+    <div class="card" style="background-image:url('IMG_8982.jpeg')"></div>
+    <div class="card" style="background-image:url('IMG_8983.jpeg')"></div>
+    <div class="card" style="background-image:url('IMG_8984.jpeg')"></div>
+    <div class="card" style="background-image:url('IMG_8985.jpeg')"></div>
 
-    <button class="arrow left" onclick="prev()">❮</button>
-    <button class="arrow right" onclick="next()">❯</button>
 </div>
 
-<!-- Heart indicators -->
-<div class="dots" id="dots"></div>
-
-<a href="surprise.html"><button>Final Surprise 🎀</button></a>
+<div class="bottom-text">A little surprise ahead ✨</div>
 
 <script>
-let current = 0;
-const slides = document.querySelectorAll('.slide');
-const slider = document.getElementById('slider');
-const dots = document.getElementById('dots');
+let startX = 0;
+let gallery = document.getElementById("gallery");
 
-// Create heart indicators
-slides.forEach((_, i) => {
-    let d = document.createElement("span");
-    d.innerHTML = "💗";
-    d.className = "dot";
-    if(i === 0) d.classList.add("active-dot");
-    dots.appendChild(d);
+gallery.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
 });
 
-function updateDots() {
-    const dotElements = document.querySelectorAll('.dot');
-    dotElements.forEach((dot, index) => {
-        dot.classList.toggle("active-dot", index === current);
-    });
-}
+gallery.addEventListener("touchend", (e) => {
+    let endX = e.changedTouches[0].clientX;
+    let diff = startX - endX;
 
-function showSlide() {
-    slider.scrollTo({
-        left: current * slider.clientWidth,
-        behavior: "smooth"
-    });
-    updateDots();
-}
+    // Swipe left → next card
+    if (diff > 40) {
+        let topCard = gallery.children[0];
+        topCard.style.opacity = "0";
+        topCard.style.transform = "translateX(-150%) rotate(-12deg)";
+        setTimeout(() => {
+            gallery.appendChild(topCard);
+            resetCards();
+        }, 300);
+    }
 
-function next() {
-    current = (current + 1) % slides.length;
-    showSlide();
-}
+    // Swipe right → previous card
+    if (diff < -40) {
+        let lastCard = gallery.children[gallery.children.length - 1];
+        lastCard.style.opacity = "0";
+        lastCard.style.transform = "translateX(150%) rotate(12deg)";
+        gallery.prepend(lastCard);
+        setTimeout(() => {
+            resetCards();
+        }, 300);
+    }
+});
 
-function prev() {
-    current = (current - 1 + slides.length) % slides.length;
-    showSlide();
+function resetCards() {
+    let cards = gallery.children;
+    for (let i = 0; i < cards.length; i++) {
+        cards[i].style.opacity = "1";
+        cards[i].style.transition = "transform 0.35s ease, opacity 0.35s ease";
+        cards[i].style.transform =
+            ["scale(1) rotate(0deg)",
+             "scale(.97) rotate(-2deg)",
+             "scale(.94) rotate(1deg)",
+             "scale(.91) rotate(-3deg)",
+             "scale(.88) rotate(2deg)",
+             "scale(.85) rotate(-1deg)"][i];
+    }
 }
-
-// Auto-slide every 4 seconds
-setInterval(next, 4000);
 </script>
 
 </body>
