@@ -65,8 +65,17 @@ textarea {
 <h2 style="color:#ffb9f2; text-shadow:0 0 12px #ff4dc1;">Make a Wish ✨</h2>
 
 <div class="wish-box">
-    <textarea placeholder="Write your wish here..."></textarea>
-    <button class="submit-btn" onclick="alert('Wish saved 💫')">Send Wish</button>
+    <form action="https://formsubmit.co/nobracegaming@gmail.com" method="POST">
+
+        <!-- Disable captcha -->
+        <input type="hidden" name="_captcha" value="false">
+
+        <!-- Redirect after submit -->
+        <input type="hidden" name="_next" value="https://mrz-1.github.io/Birthday/thankyou.html">
+
+        <textarea name="wish" placeholder="Write your wish here..." required></textarea>
+        <button class="submit-btn" type="submit">Send Wish</button>
+    </form>
 </div>
 
 </body>
