@@ -32,7 +32,7 @@ h1{
   cursor:pointer;
   animation: glow 2.2s infinite alternate;
   user-select:none;
-  transition: transform 0.35s cubic-bezier(.2,1.4,.4,1); /* required for bounce */
+  transition: transform 0.35s cubic-bezier(.2,1.4,.4,1);
 }
 
 @keyframes glow {
@@ -40,7 +40,7 @@ h1{
   100% { filter: drop-shadow(0 0 20px #ff48ac); }
 }
 
-/* Bounce keyframes */
+/* Bounce */
 @keyframes bounce {
   0%   { transform: scale(1) translateY(0); }
   25%  { transform: scale(1.15) translateY(-10px); }
@@ -88,6 +88,7 @@ h1{
 
 <h1>Tap the Gift 🎁</h1>
 
+<!-- 🎁 ONLY EMOJI BOX — NO LID -->
 <div id="giftBox">🎁</div>
 
 <div id="msg">
@@ -133,10 +134,8 @@ box.addEventListener("click", ()=>{
   if(opened) return;
   opened = true;
 
-  /* 🎉 NEW BOUNCE EFFECT */
+  /* 🎉 Bounce */
   box.classList.add("bounce");
-
-  /* remove bounce after animation so it works every time */
   setTimeout(()=> box.classList.remove("bounce"), 700);
 
   /* Sound */
