@@ -5,159 +5,175 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body{
-  margin:0;
-  background:linear-gradient(135deg,#ffdde9,#ffd1ec);
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  font-family:"Comic Sans MS";
-  text-align:center;
-  overflow:hidden;
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(145deg,#180017,#2b0030,#4a005a);
+    font-family: "Comic Sans MS";
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    overflow: hidden;
+    text-align: center;
 }
 
-/* Title */
-h1{
-  color:white;
-  font-size:22px;
-  margin-bottom:20px;
-  text-shadow:0 0 14px rgba(255,80,150,0.6);
+/* BEFORE OPEN */
+#before {
+    animation: fadeIn 1s ease forwards;
 }
 
-/* BIG gift emoji */
-#giftBox{
-  font-size:130px;
-  cursor:pointer;
-  animation: glow 2.2s infinite alternate;
-  user-select:none;
-  transition: transform 0.35s cubic-bezier(.2,1.4,.4,1);
+h2 {
+    font-size: 26px;
+    color: #f8b4ff;
+    text-shadow: 0 0 10px #ff3ccf;
+    margin-bottom: 18px;
 }
 
-@keyframes glow {
-  0% { filter: drop-shadow(0 0 10px #ff81c4); }
-  100% { filter: drop-shadow(0 0 20px #ff48ac); }
+.gift-box {
+    width: 160px;
+    cursor: pointer;
+    animation: bounce 1.5s infinite ease-in-out;
 }
 
-/* Bounce */
+.tap-text {
+    margin-top: 12px;
+    font-size: 18px;
+    color: #ffc9ff;
+}
+
+/* AFTER OPEN */
+#after {
+    display: none;
+    animation: fadeIn 1s ease forwards;
+}
+
+.message-box {
+    width: 92%;
+    padding: 25px;
+    border-radius: 20px;
+    background: linear-gradient(145deg,#7a1ca0,#c300ff);
+    box-shadow: 0 0 25px rgba(255, 50, 210, 0.7);
+    margin-top: 10px;
+}
+
+.panda {
+    width: 160px;
+    margin-bottom: 10px;
+}
+
+#msg {
+    font-size: 17px;
+    line-height: 1.6;
+    margin-top: 10px;
+}
+
+/* Replay button */
+.replay {
+    margin-top: 25px;
+    padding: 14px 30px;
+    background: #ff40b0;
+    color: white;
+    font-size: 17px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 0 20px #ff4dc1;
+    cursor: pointer;
+}
+
+/* Confetti */
+.confetti {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* Animations */
 @keyframes bounce {
-  0%   { transform: scale(1) translateY(0); }
-  25%  { transform: scale(1.15) translateY(-10px); }
-  50%  { transform: scale(0.92) translateY(4px); }
-  75%  { transform: scale(1.05) translateY(-3px); }
-  100% { transform: scale(1) translateY(0); }
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
 }
 
-.bounce {
-  animation: bounce 0.6s ease-out;
-}
-
-/* Particles */
-.particle{
-  position:fixed;
-  pointer-events:none;
-  user-select:none;
-}
-
-/* Message */
-#msg{
-  display:none;
-  margin-top:25px;
-  color:white;
-  font-size:18px;
-  text-shadow:0 0 12px rgba(255,80,150,0.6);
-}
-
-/* Button */
-#btn{
-  display:none;
-  margin-top:12px;
-  padding:12px 26px;
-  border:none;
-  border-radius:18px;
-  background:#ff7bcf;
-  color:white;
-  font-size:16px;
-  box-shadow:0 6px 18px rgba(255,120,170,0.22);
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
 
 <body>
 
-<h1>Tap the Gift 🎁</h1>
+<!-- BEFORE OPENING -->
+<div id="before">
+    <h2>One Last Thing…</h2>
 
-<!-- 🎁 ONLY EMOJI BOX — NO LID -->
-<div id="giftBox">🎁</div>
+    <img src="gift.png" class="gift-box" onclick="openGift()">
 
-<div id="msg">
-💗 Sofii, my cutest and kindest sister…<br>
-You bring sunshine wherever you go.<br>
-Thank you for being such a pure, soft, warm-hearted soul.<br>
-I hope your birthday is as magical as you are. ✨
+    <div class="tap-text">Tap the gift</div>
 </div>
 
-<button id="btn" onclick="location.href='wish.html'">Make a Wish 💖</button>
+<!-- AFTER OPENING -->
+<div id="after">
+    <canvas class="confetti" id="confetti"></canvas>
+
+    <div class="message-box">
+        <img src="panda.png" class="panda">
+
+        <div id="msg">
+            💗 Sofii, my cutest and kindest sister…<br>
+            You bring sunshine wherever you go.<br>
+            Thank you for being such a pure, soft, warm-hearted soul.<br>
+            I hope your birthday is as magical as you are. ✨
+        </div>
+    </div>
+
+    <button class="replay" onclick="location.reload()">↻ Replay</button>
+</div>
 
 <script>
-const box = document.getElementById("giftBox");
-const msg = document.getElementById("msg");
-const btn = document.getElementById("btn");
-
-let opened = false;
-
-/* particle spawner */
-function spawn(emoji, x, y, size, duration){
-  const el = document.createElement("div");
-  el.className = "particle";
-  el.innerHTML = emoji;
-  el.style.left = x + "px";
-  el.style.top = y + "px";
-  el.style.fontSize = size + "px";
-
-  document.body.appendChild(el);
-
-  const dx = (Math.random()*200 - 100);
-  const dy = -(150 + Math.random()*140);
-
-  el.animate([
-    {transform: "translate(0,0) scale(1)", opacity: 1},
-    {transform: `translate(${dx}px, ${dy}px) scale(1.4)`, opacity: 0}
-  ], {duration, easing:"ease-out"});
-
-  setTimeout(()=>el.remove(), duration+50);
+function openGift() {
+    document.getElementById("before").style.display = "none";
+    document.getElementById("after").style.display = "block";
+    startConfetti();
 }
 
-box.addEventListener("click", ()=>{
+/* Confetti effect */
+function startConfetti() {
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-  if(opened) return;
-  opened = true;
+    let pieces = [];
+    let num = 130;
 
-  /* 🎉 Bounce */
-  box.classList.add("bounce");
-  setTimeout(()=> box.classList.remove("bounce"), 700);
+    for (let i = 0; i < num; i++) {
+        pieces.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            w: 8,
+            h: 14,
+            speed: Math.random() * 3 + 2,
+            color: `hsl(${Math.random()*360},100%,70%)`
+        });
+    }
 
-  /* Sound */
-  new Audio("https://files.catbox.moe/6d0v0c.mp3").play().catch(()=>{});
-
-  /* Particle explosion */
-  const rect = box.getBoundingClientRect();
-  const cx = rect.left + rect.width/2;
-  const cy = rect.top + rect.height/2;
-
-  for(let i=0;i<40;i++){
-    const r = Math.random();
-    if(r<0.4) spawn("✨",cx,cy,20+Math.random()*10,2000);
-    else if(r<0.75) spawn("💗",cx,cy,22+Math.random()*10,2500);
-    else spawn("🦋",cx,cy,28+Math.random()*14,3000);
-  }
-
-  setTimeout(()=>{
-    msg.style.display = "block";
-    btn.style.display = "inline-block";
-  },750);
-});
+    function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach(p => {
+            p.y += p.speed;
+            if (p.y > canvas.height) p.y = -20;
+            ctx.fillStyle = p.color;
+            ctx.fillRect(p.x, p.y, p.w, p.h);
+        });
+        requestAnimationFrame(update);
+    }
+    update();
+}
 </script>
 
 </body>
