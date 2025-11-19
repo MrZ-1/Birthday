@@ -1,192 +1,152 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Ultra Surprise 🎀</title>
+<title>Surprise 🎀</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
 body {
     margin: 0;
-    background: linear-gradient(135deg, #ffb3df, #ffd8f2);
+    background: linear-gradient(135deg, #ffb6da, #ffd7ef);
     height: 100vh;
     overflow: hidden;
     font-family: "Comic Sans MS";
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     text-align: center;
 }
 
-/* ✨ Soft Glitter Fog */
+/* Simple Fog (same as original) */
 .fog {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 200%;
-    height: 200%;
+    top: 0; left: 0;
+    width: 200%; height: 200%;
     background: url('https://i.imgur.com/TnH1Kkj.png');
-    background-size: cover;
-    opacity: 0.22;
-    filter: blur(3px);
-    animation: fogFlow 35s infinite linear;
+    opacity: .18;
+    animation: fogMove 30s linear infinite;
     pointer-events: none;
 }
-
-@keyframes fogFlow {
-    from { transform: translate(-80px, -80px); }
-    to { transform: translate(80px, 80px); }
+@keyframes fogMove {
+    from { transform: translate(-50px,-50px); }
+    to { transform: translate(50px,50px); }
 }
 
-/* ✨ Cherry Blossom Fall */
-@keyframes blossomFall {
-    0% { transform: translateY(-80px) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-}
-
-.blossom {
-    position: fixed;
-    top: -50px;
-    font-size: 22px;
-    animation: blossomFall linear infinite;
-    pointer-events: none;
-}
-
-/* 🎁 Pink + Gold Luxury Gift Box */
+/* ORIGINAL 3D PINK GIFT BOX */
 #giftContainer {
     position: relative;
-    width: 200px;
-    height: 200px;
+    width: 170px;
+    height: 170px;
     cursor: pointer;
-    animation: goldGlow 2.2s infinite ease-in-out;
+    animation: softGlow 2s infinite alternate;
+}
+@keyframes softGlow {
+    0% { filter: drop-shadow(0 0 8px #ff8acb); }
+    100% { filter: drop-shadow(0 0 18px #ff5eb6); }
 }
 
-@keyframes goldGlow {
-    0% { filter: drop-shadow(0 0 10px #ffce70); }
-    50% { filter: drop-shadow(0 0 30px #ffd67e); }
-    100% { filter: drop-shadow(0 0 10px #ffce70); }
-}
-
-/* Box Body */
 .box-body {
     width: 100%;
     height: 100%;
-    background: linear-gradient(160deg, #ff6db6, #ff90d4);
+    background: linear-gradient(150deg, #ff63b0, #ff8ecf);
     border-radius: 20px;
-    box-shadow: 0 0 45px rgba(255, 110, 200, 0.6);
     position: absolute;
+    box-shadow: 0 8px 25px rgba(255, 100, 180, 0.5);
 }
 
-/* 3D Lid */
 .box-lid {
     width: 100%;
-    height: 80px;
-    background: linear-gradient(160deg, #ff429b, #ff77c8);
-    border-radius: 20px 20px 14px 14px;
+    height: 60px;
+    background: linear-gradient(150deg, #ff3f9c, #ff74c1);
+    border-radius: 20px 20px 12px 12px;
     position: absolute;
-    top: -75px;
+    top: -55px;
     transform-origin: bottom;
-    transition: 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+    transition: 0.6s ease;
 }
 
 .lid-open {
-    transform: rotateX(150deg) translateY(-25px);
+    transform: rotateX(135deg) translateY(-15px);
 }
 
-/* Gold Ribbons */
+/* Ribbons (simple white like original) */
 .ribbonV, .ribbonH {
-    background: linear-gradient(90deg, #ffe9a9, #ffda6e, #ffe9a9);
+    background: rgba(255,255,255,0.8);
     position: absolute;
-    border-radius: 10px;
-    animation: goldShimmer 2s infinite linear;
+    border-radius: 12px;
 }
-
-@keyframes goldShimmer {
-    0% { filter: brightness(1); }
-    50% { filter: brightness(1.4); }
-    100% { filter: brightness(1); }
-}
-
 .ribbonV {
-    width: 26px;
-    height: 200px;
+    width: 22px;
+    height: 170px;
     left: 50%;
     transform: translateX(-50%);
 }
-
 .ribbonH {
-    width: 200px;
-    height: 26px;
+    width: 170px;
+    height: 22px;
     top: 50%;
     transform: translateY(-50%);
 }
 
-/* ✨ Sparkles */
+/* Sparkles */
 .sparkle {
     position: absolute;
-    font-size: 26px;
-    color: #fff;
-    text-shadow: 0 0 12px #ffb4e6;
-    animation: sparkleRise 2.3s ease-out forwards;
+    font-size: 24px;
+    animation: rise 2s ease-out forwards;
 }
-
-@keyframes sparkleRise {
+@keyframes rise {
     0% { opacity: 1; transform: translateY(0) scale(1); }
-    100% { opacity: 0; transform: translateY(-180px) scale(2); }
+    100% { opacity: 0; transform: translateY(-160px) scale(1.5); }
 }
 
-/* 🦋 Butterflies */
-.butterfly {
-    position: absolute;
-    font-size: 40px;
-    animation: flutter 4s ease-in-out forwards;
-}
-
-@keyframes flutter {
-    0% { transform: translateY(0) rotate(0deg); opacity:1; }
-    50% { transform: translateY(-90px) rotate(12deg); opacity:1; }
-    100% { transform: translateY(-200px) rotate(-10deg); opacity:0; }
-}
-
-/* 💗 Hearts */
+/* Hearts */
 .heart {
     position: absolute;
-    font-size: 34px;
-    animation: heartUp 4s ease-in-out forwards;
+    font-size: 30px;
+    animation: heartUp 3.5s ease forwards;
 }
-
 @keyframes heartUp {
-    0% { opacity: 1; transform: translateY(0) scale(1); }
-    100% { opacity: 0; transform: translateY(-240px) scale(1.7); }
+    0% { opacity: 1; transform: translateY(0) scale(1);}
+    100% { opacity: 0; transform: translateY(-200px) scale(1.4);}
 }
 
-/* ✨ Message */
+/* Butterflies */
+.butterfly {
+    position: absolute;
+    font-size: 38px;
+    animation: flutter 4s ease forwards;
+}
+@keyframes flutter {
+    0% { transform: translateY(0); opacity:1; }
+    100% { transform: translateY(-160px) rotate(14deg); opacity:0; }
+}
+
+/* Message */
 #msg {
-    margin-top: 30px;
-    font-size: 26px;
-    color: #ffffff;
-    text-shadow: 0 0 14px #ff3eaa;
+    margin-top: 20px;
+    font-size: 24px;
+    color: #fff;
+    text-shadow: 0 0 12px #ff4ea9;
     display: none;
-    animation: fadeInMsg 1.6s ease forwards;
+    animation: fadeIn 1.3s ease forwards;
 }
-
-@keyframes fadeInMsg {
-    from { opacity: 0; transform: translateY(40px); }
-    to   { opacity: 1; transform: translateY(0); }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Button */
 button {
     margin-top: 20px;
-    padding: 12px 32px;
+    padding: 12px 28px;
     background: #ff7bcf;
-    color: white;
+    border-radius: 18px;
     border: none;
-    font-size: 18px;
-    border-radius: 20px;
+    color: white;
+    font-size: 17px;
     display: none;
-    box-shadow: 0 0 18px #ff9bdd;
+    box-shadow: 0 0 14px #ff8cd5;
 }
 </style>
 
@@ -195,18 +155,18 @@ button {
 
 <div class="fog"></div>
 
-<h2 style="color:white; text-shadow:0 0 14px #ff6fb0; font-size:26px;">
-    Tap the Magical Gift Box 🎀✨
+<h2 style="color:white; text-shadow:0 0 12px #ff6fb0;">
+    Tap the Gift Box 🎀
 </h2>
 
-<div id="giftContainer" onclick="openUltraGift()">
+<div id="giftContainer" onclick="openOriginalGift()">
     <div class="box-body"></div>
     <div class="box-lid" id="boxLid"></div>
     <div class="ribbonV"></div>
     <div class="ribbonH"></div>
 </div>
 
-<!-- Sister Message -->
+<!-- Your chosen sister message -->
 <div id="msg">💗 Sofii, my cutest and kindest sister…<br>
 You bring sunshine wherever you go.<br>
 Thank you for being such a pure, soft, warm-hearted soul.<br>
@@ -216,18 +176,7 @@ I hope your birthday is as magical as you are. ✨</div>
 
 <script>
 
-/* 🌸 Create Falling Blossoms */
-setInterval(() => {
-    let b = document.createElement("div");
-    b.className = "blossom";
-    b.innerHTML = "🌸";
-    b.style.left = Math.random()*100 + "vw";
-    b.style.animationDuration = 6 + Math.random()*4 + "s";
-    document.body.appendChild(b);
-    setTimeout(() => b.remove(), 9000);
-}, 700);
-
-function openUltraGift() {
+function openOriginalGift() {
 
     document.getElementById("boxLid").classList.add("lid-open");
 
@@ -236,43 +185,42 @@ function openUltraGift() {
     if (navigator.vibrate) navigator.vibrate(80);
 
     /* Sparkles */
-    for (let i=0; i<55; i++){
-        let sp = document.createElement("div");
-        sp.className = "sparkle";
-        sp.innerHTML = "✨";
-        sp.style.left = (window.innerWidth/2 + (Math.random()*240 - 120)) + "px";
-        sp.style.top = "280px";
-        document.body.appendChild(sp);
-        setTimeout(()=>sp.remove(), 2500);
+    for (let i=0; i<40; i++){
+        let s=document.createElement("div");
+        s.className="sparkle";
+        s.innerHTML="✨";
+        s.style.left=Math.random()*100+"vw";
+        s.style.top="260px";
+        document.body.appendChild(s);
+        setTimeout(()=>s.remove(),2000);
     }
 
     /* Hearts */
-    for (let i=0; i<65; i++){
-        let h = document.createElement("div");
-        h.className = "heart";
-        h.innerHTML = "💗";
-        h.style.left = Math.random()*100 + "vw";
-        h.style.top = "260px";
+    for (let i=0; i<50; i++){
+        let h=document.createElement("div");
+        h.className="heart";
+        h.innerHTML="💗";
+        h.style.left=Math.random()*100+"vw";
+        h.style.top="260px";
         document.body.appendChild(h);
-        setTimeout(()=>h.remove(), 3200);
+        setTimeout(()=>h.remove(),3000);
     }
 
     /* Butterflies */
-    for (let i=0; i<14; i++){
-        let b = document.createElement("div");
-        b.className = "butterfly";
-        b.innerHTML = "🦋";
-        b.style.left = Math.random()*100 + "vw";
-        b.style.top = "260px";
-        b.style.animationDuration = (3 + Math.random()*2) + "s";
+    for (let i=0; i<10; i++){
+        let b=document.createElement("div");
+        b.className="butterfly";
+        b.innerHTML="🦋";
+        b.style.left=Math.random()*100+"vw";
+        b.style.top="260px";
         document.body.appendChild(b);
-        setTimeout(()=>b.remove(), 3500);
+        setTimeout(()=>b.remove(),3500);
     }
 
     setTimeout(()=>{
-        document.getElementById("msg").style.display = "block";
-        document.getElementById("nextBtn").style.display = "inline-block";
-    }, 900);
+        msg.style.display="block";
+        nextBtn.style.display="inline-block";
+    },800);
 }
 </script>
 
