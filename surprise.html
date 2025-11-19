@@ -5,151 +5,164 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 body {
     margin: 0;
-    background: linear-gradient(135deg, #ffb6da, #ffd7ef);
+    background: linear-gradient(135deg, #ffb3df, #ffd8f2);
     height: 100vh;
     overflow: hidden;
     font-family: "Comic Sans MS";
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     text-align: center;
 }
 
-/* Soft glitter fog */
+/* ✨ Soft Glitter Fog */
 .fog {
     position: fixed;
     top: 0;
     left: 0;
-    width: 140%;
-    height: 140%;
+    width: 200%;
+    height: 200%;
     background: url('https://i.imgur.com/TnH1Kkj.png');
     background-size: cover;
-    opacity: 0.25;
-    animation: fogMove 25s infinite linear;
-    pointer-events: none;
+    opacity: 0.22;
     filter: blur(3px);
+    animation: fogFlow 35s infinite linear;
+    pointer-events: none;
 }
 
-@keyframes fogMove {
-    from { transform: translate(-40px, -40px); }
-    to   { transform: translate(40px, 40px); }
+@keyframes fogFlow {
+    from { transform: translate(-80px, -80px); }
+    to { transform: translate(80px, 80px); }
 }
 
-/* 3D Gift Box */
+/* ✨ Cherry Blossom Fall */
+@keyframes blossomFall {
+    0% { transform: translateY(-80px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+.blossom {
+    position: fixed;
+    top: -50px;
+    font-size: 22px;
+    animation: blossomFall linear infinite;
+    pointer-events: none;
+}
+
+/* 🎁 Premium 3D Gift Box */
 #giftContainer {
     position: relative;
-    width: 180px;
-    height: 180px;
+    width: 190px;
+    height: 190px;
     cursor: pointer;
-    animation: glowPulse 2s infinite ease-in-out;
-    margin-top: 40px;
+    animation: softGlow 2.2s infinite ease-in-out;
 }
 
-@keyframes glowPulse {
-    0% { filter: drop-shadow(0 0 12px #ff8acb); }
-    50%{ filter: drop-shadow(0 0 22px #ff5eb6); }
-    100%{ filter: drop-shadow(0 0 12px #ff8acb); }
+@keyframes softGlow {
+    0% { filter: drop-shadow(0 0 10px #ff8ed6); }
+    50% { filter: drop-shadow(0 0 25px #ff5cbc); }
+    100% { filter: drop-shadow(0 0 10px #ff8ed6); }
 }
 
 .box-body {
     width: 100%;
     height: 100%;
-    background: linear-gradient(160deg, #ff5fa2, #ff88c7);
+    background: linear-gradient(160deg, #ff5fa2, #ff90cd);
     border-radius: 20px;
-    box-shadow: 0 0 40px rgba(255, 90, 160, 0.5);
+    box-shadow: 0 0 45px rgba(255, 90, 180, 0.6);
     position: absolute;
-    bottom: 0;
 }
 
 .box-lid {
     width: 100%;
-    height: 60px;
-    background: linear-gradient(160deg, #ff3d8e, #ff6fb3);
+    height: 70px;
+    background: linear-gradient(160deg, #ff2d89, #ff6db6);
     border-radius: 20px 20px 14px 14px;
     position: absolute;
-    top: -55px;
-    transform-origin: center bottom;
-    transition: 0.6s ease-out;
-}
-
-.ribbonV {
-    width: 24px;
-    height: 180px;
-    background: rgba(255,255,255,0.7);
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 10px;
-}
-
-.ribbonH {
-    height: 24px;
-    width: 180px;
-    background: rgba(255,255,255,0.7);
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    border-radius: 10px;
+    top: -65px;
+    transform-origin: bottom;
+    transition: 0.7s cubic-bezier(.68,-0.55,.27,1.55);
 }
 
 .lid-open {
-    transform: rotateX(130deg) translateY(-20px);
+    transform: rotateX(140deg) translateY(-20px);
 }
 
-/* Sparkles */
+/* Ribbons */
+.ribbonV, .ribbonH {
+    background: rgba(255,255,255,0.8);
+    position: absolute;
+    border-radius: 10px;
+}
+
+.ribbonV {
+    width: 26px;
+    height: 190px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.ribbonH {
+    width: 190px;
+    height: 26px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* ✨ Sparkles */
 .sparkle {
     position: absolute;
-    font-size: 24px;
-    color: #fff;
-    text-shadow: 0 0 15px #ff8bcc;
-    animation: sparkleFloat 2s linear forwards;
-}
-
-@keyframes sparkleFloat {
-    from { opacity: 1; transform: translateY(0) scale(1); }
-    to   { opacity: 0; transform: translateY(-150px) scale(1.6); }
-}
-
-/* Butterflies */
-.butterfly {
-    position: absolute;
-    font-size: 40px;
-    animation: flap 4s ease-in-out forwards;
-}
-
-@keyframes flap {
-    0% { transform: translateY(0) rotate(0deg); opacity:1; }
-    50%{ transform: translateY(-60px) rotate(10deg); opacity:1; }
-    100%{ transform: translateY(-140px) rotate(-5deg); opacity:0; }
-}
-
-/* Hearts */
-.heart {
-    position: absolute;
-    font-size: 30px;
-    animation: heartRise 4s ease-in-out forwards;
-}
-
-@keyframes heartRise {
-    0% { opacity: 1; transform: translateY(0) scale(1); }
-    100%{ opacity: 0; transform: translateY(-200px) scale(1.4); }
-}
-
-/* Message */
-#msg {
-    margin-top: 25px;
     font-size: 26px;
     color: #fff;
-    text-shadow: 0 0 14px #ff4da6;
-    font-weight: bold;
-    display: none;
-    animation: fadeText 1.8s ease forwards;
+    text-shadow: 0 0 12px #ffb4e6;
+    animation: sparkleRise 2.3s ease-out forwards;
 }
 
-@keyframes fadeText {
+@keyframes sparkleRise {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-180px) scale(1.8); }
+}
+
+/* 🦋 Butterflies */
+.butterfly {
+    position: absolute;
+    font-size: 38px;
+    animation: flutter 4s ease-in-out forwards;
+}
+
+@keyframes flutter {
+    0% { transform: translateY(0) rotate(0deg); opacity:1; }
+    50% { transform: translateY(-80px) rotate(12deg); opacity:1; }
+    100% { transform: translateY(-180px) rotate(-10deg); opacity:0; }
+}
+
+/* 💗 Hearts */
+.heart {
+    position: absolute;
+    font-size: 32px;
+    animation: heartUp 4s ease-in-out forwards;
+}
+
+@keyframes heartUp {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100%{ opacity: 0; transform: translateY(-240px) scale(1.6); }
+}
+
+/* ✨ Message */
+#msg {
+    margin-top: 30px;
+    font-size: 26px;
+    color: #ffffff;
+    text-shadow: 0 0 14px #ff3eaa;
+    display: none;
+    animation: fadeInMsg 1.6s ease forwards;
+}
+
+@keyframes fadeInMsg {
     from { opacity: 0; transform: translateY(40px); }
     to   { opacity: 1; transform: translateY(0); }
 }
@@ -157,14 +170,14 @@ body {
 /* Button */
 button {
     margin-top: 20px;
-    padding: 12px 30px;
-    background: #ff7bbf;
-    border-radius: 20px;
+    padding: 12px 32px;
+    background: #ff7bcf;
     color: white;
-    font-size: 17px;
     border: none;
+    font-size: 18px;
+    border-radius: 20px;
     display: none;
-    box-shadow: 0 0 18px #ff8acb;
+    box-shadow: 0 0 18px #ff9bdd;
 }
 </style>
 
@@ -173,65 +186,84 @@ button {
 
 <div class="fog"></div>
 
-<h2 style="color:white; text-shadow:0 0 14px #ff6fb0; font-size:24px;">
-    Tap the magical gift box 🎀
+<h2 style="color:white; text-shadow:0 0 14px #ff6fb0; font-size:26px;">
+    Tap the Magical Gift Box 🎀✨
 </h2>
 
-<div id="giftContainer" onclick="openSuperGift()">
+<div id="giftContainer" onclick="openUltraGift()">
     <div class="box-body"></div>
     <div class="box-lid" id="boxLid"></div>
     <div class="ribbonV"></div>
     <div class="ribbonH"></div>
 </div>
 
-<div id="msg">✨ Sofii, your smile makes the world prettier 💗<br>
-You deserve magic, love & happiness always! ✨</div>
+<!-- 🌸 NEW SISTER MESSAGE INSERTED HERE -->
+<div id="msg">💗 Sofii, my cutest and kindest sister…<br>
+You bring sunshine wherever you go.<br>
+Thank you for being such a pure, soft, warm-hearted soul.<br>
+I hope your birthday is as magical as you are. ✨</div>
 
 <button id="nextBtn" onclick="location.href='wish.html'">Make a Wish 💖</button>
 
 <script>
-function openSuperGift() {
 
-    // Lid opens
+/* 🌸 Create Falling Blossoms */
+setInterval(() => {
+    let b = document.createElement("div");
+    b.className = "blossom";
+    b.innerHTML = "🌸";
+    b.style.left = Math.random()*100 + "vw";
+    b.style.animationDuration = 6 + Math.random()*4 + "s";
+    document.body.appendChild(b);
+    setTimeout(() => b.remove(), 9000);
+}, 700);
+
+function openUltraGift() {
+
+    /* Open Lid */
     document.getElementById("boxLid").classList.add("lid-open");
 
-    // Soft magical chime
+    /* Magic Sound */
     new Audio("https://files.catbox.moe/6d0v0c.mp3").play().catch(()=>{});
 
-    // Sparkles
-    for (let i=0; i<40; i++){
+    /* Vibrate (Mobile Only) */
+    if (navigator.vibrate) navigator.vibrate(80);
+
+    /* Sparkles */
+    for (let i=0; i<55; i++){
         let sp = document.createElement("div");
         sp.className = "sparkle";
         sp.innerHTML = "✨";
-        sp.style.left = (window.innerWidth/2 + (Math.random()*200 - 100)) + "px";
-        sp.style.top = "260px";
+        sp.style.left = (window.innerWidth/2 + (Math.random()*240 - 120)) + "px";
+        sp.style.top = "280px";
         document.body.appendChild(sp);
         setTimeout(()=>sp.remove(), 2500);
     }
 
-    // Hearts
-    for (let i=0; i<50; i++){
+    /* Hearts */
+    for (let i=0; i<65; i++){
         let h = document.createElement("div");
         h.className = "heart";
         h.innerHTML = "💗";
         h.style.left = Math.random()*100 + "vw";
-        h.style.top = "250px";
+        h.style.top = "260px";
         document.body.appendChild(h);
-        setTimeout(()=>h.remove(), 3000);
+        setTimeout(()=>h.remove(), 3200);
     }
 
-    // Butterflies
-    for (let i=0; i<12; i++){
+    /* Butterflies */
+    for (let i=0; i<14; i++){
         let b = document.createElement("div");
         b.className = "butterfly";
         b.innerHTML = "🦋";
         b.style.left = Math.random()*100 + "vw";
         b.style.top = "260px";
+        b.style.animationDuration = (3 + Math.random()*2) + "s";
         document.body.appendChild(b);
         setTimeout(()=>b.remove(), 3500);
     }
 
-    // Show message + button
+    /* Show Message + Wish Button */
     setTimeout(()=>{
         document.getElementById("msg").style.display = "block";
         document.getElementById("nextBtn").style.display = "inline-block";
