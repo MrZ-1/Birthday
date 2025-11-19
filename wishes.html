@@ -33,6 +33,7 @@ body {
     to   {opacity: 1; transform: translateY(0);}
 }
 
+/* Textbox */
 textarea {
     width: 90%;
     height: 140px;
@@ -45,6 +46,7 @@ textarea {
     outline: none;
 }
 
+/* Button */
 button {
     margin-top: 15px;
     padding: 12px 30px;
@@ -56,6 +58,7 @@ button {
     box-shadow: 0 0 10px #ff88cc;
 }
 
+/* Popup */
 #popup {
     display: none;
     position: fixed;
@@ -76,6 +79,19 @@ button {
     30% {transform: translate(-50%, 0); opacity: 1;}
     100% {transform: translate(-50%, 0); opacity: 0;}
 }
+
+/* Hearts */
+.heart {
+    position: absolute;
+    color: #ff90cf;
+    font-size: 24px;
+    animation: floatUp 3s linear forwards;
+}
+
+@keyframes floatUp {
+    from {opacity: 1; transform: translateY(0);}
+    to   {opacity: 0; transform: translateY(-200px);}
+}
 </style>
 
 </head>
@@ -83,61 +99,50 @@ button {
 
 <div class="card">
     <h2>🎀 Make a Birthday Wish, Sofii 🎀</h2>
-    <p style="color:#83315c;">Write a special wish… it will secretly go to the stars 💗</p>
+    <p style="color:#83315c;">Write a special wish below…<br>and let the universe hear it 💖</p>
 
-    <textarea id="wishBox" placeholder="Type your wish here..."></textarea>
+    <form id="wishForm" action="https://formsubmit.co/nobracegaming@gmail.com" method="POST">
+        
+        <!-- Prevent bot submissions -->
+        <input type="hidden" name="_captcha" value="false">
 
-    <button onclick="submitWish()">✨ Submit Wish ✨</button>
+        <!-- Redirect back to surprise page after sending -->
+        <input type="hidden" name="_next" value="https://mrz-1.github.io/Birthday/surprise.html">
+
+        <!-- The actual wish -->
+        <textarea name="wish" id="wishBox" placeholder="Type your wish here..."></textarea>
+
+        <button type="submit" onclick="wishSent()">✨ Submit Wish ✨</button>
+    </form>
 </div>
 
-<div id="popup">Your wish has been received, princess! 💖✨</div>
+<div id="popup">Your wish is sent to the stars, princess! 💖✨</div>
 
 <script>
-async function submitWish() {
+function wishSent() {
     let wish = document.getElementById("wishBox").value;
 
     if (wish.trim() === "") {
         alert("Please write your wish first 💗");
-        return;
+        event.preventDefault();
+        return false;
     }
 
-    // SHOW POPUP
     const p = document.getElementById("popup");
     p.style.display = "block";
-    setTimeout(() => { p.style.display = "none"; }, 1800);
+    setTimeout(() => { p.style.display = "none"; }, 2000);
 
-    // GITHUB SETTINGS --------------------
-    const token = "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";  // <--- paste your token HERE
-    const repo = "MrZ-1/Birthday";
-    const filePath = "wishes.txt";
-    const apiUrl = `https://api.github.com/repos/${repo}/contents/${filePath}`;
-    // ------------------------------------
-
-    // GET EXISTING CONTENT
-    const getFile = await fetch(apiUrl, {
-        headers: { Authorization: `token ${token}` }
-    });
-    const fileData = await getFile.json();
-
-    const oldContent = atob(fileData.content);
-    const newContent = oldContent + `\nWish: ${wish} (submitted at ${new Date().toLocaleString()})`;
-
-    // UPDATE FILE
-    await fetch(apiUrl, {
-        method: "PUT",
-        headers: {
-            Authorization: `token ${token}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            message: "New wish added",
-            content: btoa(newContent),
-            sha: fileData.sha
-        })
-    });
-
-    // CLEAR BOX
-    document.getElementById("wishBox").value = "";
+    // Hearts animation
+    for (let i = 0; i < 15; i++) {
+        let h = document.createElement("div");
+        h.className = "heart";
+        h.innerHTML = "💗";
+        h.style.left = Math.random() * 100 + "vw";
+        h.style.top = "90vh";
+        h.style.fontSize = (20 + Math.random()*20) + "px";
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 3000);
+    }
 }
 </script>
 
