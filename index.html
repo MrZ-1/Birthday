@@ -5,105 +5,119 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 body {
     margin: 0;
-    background: linear-gradient(135deg, #ffb6d9, #ffd7ef);
+    background: linear-gradient(145deg, #120014, #2b002d, #450046);
     height: 100vh;
+    overflow: hidden;
+    font-family: "Comic Sans MS", cursive;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    font-family: "Comic Sans MS", cursive;
+    flex-direction: column;
 }
 
-/* Floating cat */
-.cat {
-    width: 180px;
-    animation: float 3s ease-in-out infinite, glow 2.4s ease-in-out infinite alternate;
-    margin-bottom: 15px;
+/* Floating hearts background */
+@keyframes floatHearts {
+    0% { transform: translateY(0) scale(1); opacity: 0.8; }
+    100% { transform: translateY(-350px) scale(1.6); opacity: 0; }
 }
 
-@keyframes float {
+.heart {
+    position: absolute;
+    bottom: 0;
+    color: #ff89c9;
+    font-size: 18px;
+    animation: floatHearts 5s linear infinite;
+}
+
+/* Panda image */
+.panda {
+    width: 200px;
+    animation: pandaFloat 3s ease-in-out infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes pandaFloat {
     0% { transform: translateY(0px); }
-    50% { transform: translateY(-14px); }
+    50% { transform: translateY(-10px); }
     100% { transform: translateY(0px); }
 }
 
-@keyframes glow {
-    from { filter: drop-shadow(0 0 10px #ff9cd4); }
-    to   { filter: drop-shadow(0 0 18px #ff6fb3); }
-}
-
-h1 {
-    font-size: 32px;
-    color: white;
-    text-shadow: 0 0 20px #ff69b4;
-    animation: glowText 2s infinite alternate;
+/* Main text */
+.title {
+    font-size: 28px;
+    color: #ff93e1;
+    text-shadow: 0 0 14px #ff3da1, 0 0 30px #ff3da1;
+    margin-top: 15px;
+    margin-bottom: 10px;
     text-align: center;
+    animation: glowText 2s infinite alternate;
 }
 
 @keyframes glowText {
-    from { text-shadow: 0 0 14px #ff69b4; }
-    to   { text-shadow: 0 0 28px #ff1493; }
+    from { text-shadow: 0 0 10px #ff3da1; }
+    to   { text-shadow: 0 0 25px #ff70d6; }
 }
 
-/* cute button */
+.subtitle {
+    color: #ffb6ef;
+    font-size: 16px;
+    text-align: center;
+    margin-top: -5px;
+    margin-bottom: 25px;
+}
+
+/* Button */
 button {
-    margin-top: 20px;
-    padding: 15px 35px;
+    padding: 15px 40px;
+    border-radius: 30px;
     border: none;
-    border-radius: 25px;
-    background: white;
-    color: #ff4d8f;
+    background: linear-gradient(90deg, #ff4cbf, #ff2d98, #ff5cd1);
+    color: white;
     font-size: 18px;
     font-weight: bold;
-    box-shadow: 0 0 15px rgba(255,255,255,0.9);
-    animation: pop 1.2s infinite;
+    box-shadow: 0 0 18px #ff2d98;
+    animation: buttonPulse 1.8s infinite;
 }
 
-@keyframes pop {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.08); }
-    100% { transform: scale(1); }
+@keyframes buttonPulse {
+    0% { transform: scale(1); box-shadow: 0 0 14px #ff2d98; }
+    50% { transform: scale(1.05); box-shadow: 0 0 22px #ff4cbf; }
+    100% { transform: scale(1); box-shadow: 0 0 14px #ff2d98; }
 }
 
-/* floating hearts */
-.heart {
-    position: absolute;
-    color: #ff80bf;
-    font-size: 20px;
-    animation: floatUp 4s linear infinite;
-}
-@keyframes floatUp {
-    from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(-300px); opacity: 0; }
-}
 </style>
 
 </head>
+<body onclick="spawnHeart(event)">
 
-<body onclick="createHeart(event)">
+<!-- Panda Image -->
+<img class="panda" src="IMG_8989.jpeg" alt="panda">
 
-<div style="text-align:center;">
+<!-- Main Greeting -->
+<div class="title">A Cutiepie was born today,<br>20 years ago! 💖</div>
 
-    <!-- Gorgeous floating cat
-     <img class="cat" src="https://media.tenor.com/xpE0Y2Te74gAAAAj/cute-cat.gif" alt="cute cat">
+<!-- Subtitle -->
+<div class="subtitle">Yes, it's YOU Sofii! A little surprise awaits…</div>
 
-    <h1>🎀 Happy Birthday Sofii 🎀<br>Tap to Start</h1>
-
-    <a href="card.html"><button>✨ Start ✨</button></a>
-</div>
+<!-- Button -->
+<a href="card.html"><button>🎁 Start the surprise</button></a>
 
 <script>
-function createHeart(e) {
-    let heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "💗";
-    heart.style.left = e.clientX + "px";
-    heart.style.top = e.clientY + "px";
-    heart.style.fontSize = (20 + Math.random()*20) + "px";
-    document.body.appendChild(heart);
-    setTimeout(()=>{ heart.remove(); }, 4000);
+// Floating hearts generator
+function spawnHeart(e) {
+    for (let i = 0; i < 4; i++) {
+        let h = document.createElement("div");
+        h.className = "heart";
+        h.innerHTML = "💗";
+        h.style.left = (e.clientX + (Math.random()*40 - 20)) + "px";
+        h.style.fontSize = (18 + Math.random()*18) + "px";
+        h.style.animationDuration = (4 + Math.random()*2) + "s";
+        document.body.appendChild(h);
+        setTimeout(() => { h.remove(); }, 6000);
+    }
 }
 </script>
 
