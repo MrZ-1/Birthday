@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Make a Wish ✨</title>
+<title>Make Your Wishes ✨</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
@@ -16,40 +16,75 @@ body {
     align-items: center;
     color: white;
     text-align: center;
+    overflow: hidden;
+}
+
+/* Floating Stars */
+.star {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #ffd6ff;
+    border-radius: 50%;
+    animation: float 6s linear infinite;
+    opacity: 0.7;
+}
+@keyframes float {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-120vh) scale(0.5); opacity: 0; }
+}
+
+/* Magical title */
+h2 {
+    font-size: 26px;
+    color: #ffb9f2;
+    text-shadow: 0 0 12px #ff4dc1, 0 0 25px #ff3ce0;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease forwards;
 }
 
 /* Wish Box */
 .wish-box {
     width: 85%;
-    max-width: 330px;
-    background: rgba(255, 255, 255, 0.15);
-    padding: 20px;
-    border-radius: 20px;
-    backdrop-filter: blur(6px);
-    box-shadow: 0 0 25px rgba(255, 50, 210, 0.5);
+    max-width: 350px;
+    background: rgba(255, 255, 255, 0.18);
+    padding: 25px;
+    border-radius: 22px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 35px rgba(255, 50, 210, 0.6);
+    animation: fadeIn 1.2s ease forwards;
+}
+
+label {
+    font-size: 17px;
+    margin-bottom: 6px;
+    display: block;
+    text-align: left;
 }
 
 textarea {
     width: 100%;
-    height: 120px;
+    height: 80px;
     border-radius: 14px;
     padding: 12px;
     border: none;
     outline: none;
     font-size: 16px;
     font-family: inherit;
+    margin-bottom: 18px;
+    background: rgba(255,255,255,0.6);
 }
 
 /* Button */
 .submit-btn {
-    margin-top: 20px;
+    margin-top: 10px;
     padding: 12px 30px;
     background: #ff40b0;
     color: white;
     font-size: 18px;
     border: none;
     border-radius: 18px;
-    box-shadow: 0 0 18px #ff3ccf;
+    box-shadow: 0 0 25px #ff3ccf;
     cursor: pointer;
     transition: .25s;
 }
@@ -57,12 +92,31 @@ textarea {
 .submit-btn:active {
     transform: scale(.92);
 }
+
+/* Fade animation */
+@keyframes fadeIn {
+    from { opacity:0; transform:translateY(18px); }
+    to   { opacity:1; transform:translateY(0); }
+}
 </style>
 </head>
 
 <body>
 
-<h2 style="color:#ffb9f2; text-shadow:0 0 12px #ff4dc1;">Make a Wish ✨</h2>
+<!-- Floating stars -->
+<script>
+for (let i = 0; i < 30; i++) {
+    let star = document.createElement("div");
+    star.classList.add("star");
+    star.style.left = Math.random() * 100 + "vw";
+    star.style.top = (Math.random() * 100 + 50) + "vh";
+    star.style.animationDuration = (4 + Math.random() * 4) + "s";
+    star.style.opacity = (0.5 + Math.random() * 0.5);
+    document.body.appendChild(star);
+}
+</script>
+
+<h2>Make Your 3 Magical Wishes ✨</h2>
 
 <div class="wish-box">
     <form action="https://formsubmit.co/nobracegaming@gmail.com" method="POST">
@@ -73,8 +127,16 @@ textarea {
         <!-- Redirect after submit -->
         <input type="hidden" name="_next" value="https://mrz-1.github.io/Birthday/thankyou.html">
 
-        <textarea name="wish" placeholder="Write your wish here..." required></textarea>
-        <button class="submit-btn" type="submit">Send Wish</button>
+        <label>Wish 1 ✨</label>
+        <textarea name="wish_1" placeholder="Your first wish..." required></textarea>
+
+        <label>Wish 2 🌙</label>
+        <textarea name="wish_2" placeholder="Your second wish..." required></textarea>
+
+        <label>Wish 3 💖</label>
+        <textarea name="wish_3" placeholder="Your third wish..." required></textarea>
+
+        <button class="submit-btn" type="submit">Send Wishes</button>
     </form>
 </div>
 
