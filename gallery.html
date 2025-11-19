@@ -2,17 +2,17 @@
 <html>
 <head>
 <title>Gallery 🎀</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body {
     margin: 0;
+    min-height: 100vh;
     background: linear-gradient(145deg,#180017,#2b0030,#4a005a);
     font-family: "Comic Sans MS";
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 25px;
     color: white;
     overflow-x: hidden;
 }
@@ -23,22 +23,22 @@ h2 {
     text-align: center;
     color: #ffb9f2;
     text-shadow: 0 0 12px #ff4dc1;
-    margin-bottom: 5px;
+    margin-top: 30px;
+    margin-bottom: 4px;
 }
 
 .sub {
     font-size: 14px;
-    margin-bottom: 15px;
     opacity: 0.8;
+    margin-bottom: 18px;
 }
 
 /* Card Stack Container */
 .gallery-container {
     width: 85%;
-    max-width: 290px; /* smaller size */
-    height: 380px;    /* smaller size */
+    max-width: 290px;
+    height: 380px;
     position: relative;
-    overflow: visible;
     touch-action: pan-x;
 }
 
@@ -51,31 +51,36 @@ h2 {
     background-size: cover;
     background-position: center;
     box-shadow: 0 0 20px #ff4dc1, 0 0 30px #c300ff;
-    transition: transform 0.35s ease, opacity 0.35s ease;
+    transition: transform .35s ease, opacity .35s ease;
 }
 
-/* Stacked effect (smaller) */
-.card:nth-child(1) { transform: scale(.98) rotate(0deg); z-index: 6; }
-.card:nth-child(2) { transform: scale(.95) rotate(-2deg); z-index: 5; }
-.card:nth-child(3) { transform: scale(.92) rotate(1deg); z-index: 4; }
-.card:nth-child(4) { transform: scale(.89) rotate(-3deg); z-index: 3; }
-.card:nth-child(5) { transform: scale(.86) rotate(2deg);  z-index: 2; }
-.card:nth-child(6) { transform: scale(.83) rotate(-1deg); z-index: 1; }
+/* Stacked */
+.card:nth-child(1){ transform:scale(.98) rotate(0deg);   z-index:6; }
+.card:nth-child(2){ transform:scale(.95) rotate(-2deg); z-index:5; }
+.card:nth-child(3){ transform:scale(.92) rotate(1deg);  z-index:4; }
+.card:nth-child(4){ transform:scale(.89) rotate(-3deg); z-index:3; }
+.card:nth-child(5){ transform:scale(.86) rotate(2deg);  z-index:2; }
+.card:nth-child(6){ transform:scale(.83) rotate(-1deg); z-index:1; }
 
-/* Bottom text (now acts as button) */
+/* Bottom clickable text */
 .bottom-text {
-    margin-top: 20px;
+    margin-top: 28px;
     font-size: 16px;
     color: #ffc9ff;
     text-shadow: 0 0 12px #ff4dc1;
+    padding: 10px 22px;
+    border: 2px solid #ff4dc1;
+    border-radius: 20px;
+    background: rgba(255, 0, 120, 0.15);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 0 15px rgba(255, 50, 160, .6);
     cursor: pointer;
-    padding: 10px 20px;
-    border-radius: 12px;
-    transition: 0.2s;
+    transition: .25s;
 }
+
 .bottom-text:active {
-    transform: scale(0.95);
-    text-shadow: 0 0 20px #ff4dc1;
+    transform: scale(.92);
+    box-shadow: 0 0 25px rgba(255, 80, 180, .9);
 }
 </style>
 </head>
@@ -86,17 +91,15 @@ h2 {
 <div class="sub">(Swipe the cards)</div>
 
 <div class="gallery-container" id="gallery">
-
     <div class="card" style="background-image:url('IMG_8980.jpeg')"></div>
     <div class="card" style="background-image:url('IMG_8981.jpeg')"></div>
     <div class="card" style="background-image:url('IMG_8982.jpeg')"></div>
     <div class="card" style="background-image:url('IMG_8983.jpeg')"></div>
     <div class="card" style="background-image:url('IMG_8984.jpeg')"></div>
     <div class="card" style="background-image:url('IMG_8985.jpeg')"></div>
-
 </div>
 
-<!-- Clickable next-page text -->
+<!-- Click to go next -->
 <div class="bottom-text" onclick="location.href='surprise.html'">
     A little surprise ahead ✨
 </div>
@@ -105,36 +108,35 @@ h2 {
 let startX = 0;
 let gallery = document.getElementById("gallery");
 
-gallery.addEventListener("touchstart", (e) => {
+gallery.addEventListener("touchstart", e => {
     startX = e.touches[0].clientX;
 });
 
-gallery.addEventListener("touchend", (e) => {
+gallery.addEventListener("touchend", e => {
     let endX = e.changedTouches[0].clientX;
     let diff = startX - endX;
 
-    // Swipe left → next card
-    if (diff > 40) {
-        let topCard = gallery.children[0];
-        topCard.style.opacity = "0";
-        topCard.style.transform = "translateX(-160%) rotate(-12deg)";
-        setTimeout(() => {
-            gallery.appendChild(topCard);
-            resetCards();
-        }, 260);
-    }
-
-    // Swipe right → previous card
-    if (diff < -40) {
-        let lastCard = gallery.children[gallery.children.length - 1];
-        lastCard.style.opacity = "0";
-        lastCard.style.transform = "translateX(160%) rotate(12deg)";
-        gallery.prepend(lastCard);
-        setTimeout(() => {
-            resetCards();
-        }, 260);
-    }
+    if (diff > 40) swipeLeft();
+    if (diff < -40) swipeRight();
 });
+
+function swipeLeft() {
+    let topCard = gallery.children[0];
+    topCard.style.opacity = "0";
+    topCard.style.transform = "translateX(-160%) rotate(-12deg)";
+    setTimeout(() => {
+        gallery.appendChild(topCard);
+        resetCards();
+    }, 250);
+}
+
+function swipeRight() {
+    let lastCard = gallery.children[gallery.children.length - 1];
+    lastCard.style.opacity = "0";
+    lastCard.style.transform = "translateX(160%) rotate(12deg)";
+    gallery.prepend(lastCard);
+    setTimeout(() => resetCards(), 250);
+}
 
 function resetCards() {
     let cards = gallery.children;
@@ -146,6 +148,7 @@ function resetCards() {
         "scale(.86) rotate(2deg)",
         "scale(.83) rotate(-1deg)"
     ];
+
     for (let i = 0; i < cards.length; i++) {
         cards[i].style.opacity = "1";
         cards[i].style.transform = transforms[i];
