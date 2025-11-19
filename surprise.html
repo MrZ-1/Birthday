@@ -2,7 +2,8 @@
 <html>
 <head>
 <title>Surprise 🎁</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
 body{
   margin:0;
@@ -12,95 +13,44 @@ body{
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  overflow:hidden;
   font-family:"Comic Sans MS";
+  text-align:center;
+  overflow:hidden;
 }
 
 /* Title */
 h1{
   color:white;
   font-size:22px;
+  margin-bottom:20px;
   text-shadow:0 0 14px rgba(255,80,150,0.6);
 }
 
-/* BOX CONTAINER */
-.box-wrap{
-  position:relative;
-  width:150px;
-  height:150px;
-  margin-top:20px;
-}
-
-/* EMOJI BOX */
-#giftEmoji{
+/* BIG gift emoji */
+#giftBox{
   font-size:130px;
-  line-height:1;
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-40%); /* correct centering */
-  z-index:2;
+  cursor:pointer;
+  animation: glow 2.2s infinite alternate;
+  user-select:none;
+  transition: transform 0.35s cubic-bezier(.2,1.4,.4,1); /* required for bounce */
 }
 
-/* NEW IMPROVED LID */
-#lid{
-  width:110px;
-  height:45px;
-  background:linear-gradient(180deg,#fff5fb,#ffe7f4);
-  border-radius:10px;
-  position:absolute;
-  left:50%;
-  top:22px;
-  transform:translateX(-50%) rotateX(0deg);
-  transform-origin:bottom center; /* FIXED PIVOT */
-  transition:0.6s cubic-bezier(.2,.9,.3,1);
-  box-shadow:0 6px 15px rgba(0,0,0,0.15);
-  z-index:4;
+@keyframes glow {
+  0% { filter: drop-shadow(0 0 10px #ff81c4); }
+  100% { filter: drop-shadow(0 0 20px #ff48ac); }
 }
 
-/* Lid Ribbon */
-#lid::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:6px;
-  width:18px;
-  height:30px;
-  transform:translateX(-50%);
-  background:linear-gradient(180deg,#d93531,#b81d19);
-  border-radius:6px;
+/* Bounce keyframes */
+@keyframes bounce {
+  0%   { transform: scale(1) translateY(0); }
+  25%  { transform: scale(1.15) translateY(-10px); }
+  50%  { transform: scale(0.92) translateY(4px); }
+  75%  { transform: scale(1.05) translateY(-3px); }
+  100% { transform: scale(1) translateY(0); }
 }
 
-/* Glow */
-.glow{
-  position:absolute;
-  width:200px;
-  height:110px;
-  background:radial-gradient(circle,rgba(255,90,160,0.25),rgba(255,90,160,0.05),transparent);
-  filter:blur(14px);
-  top:80px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:1;
-}
-
-/* Message + button */
-#msg{
-  display:none;
-  font-size:18px;
-  color:white;
-  text-shadow:0 0 12px rgba(255,80,150,0.6);
-  margin-top:20px;
-}
-button{
-  display:none;
-  padding:12px 28px;
-  border:none;
-  border-radius:16px;
-  background:#ff79c8;
-  color:white;
-  margin-top:10px;
-  box-shadow:0 4px 16px rgba(255,80,150,0.3);
+.bounce {
+  animation: bounce 0.6s ease-out;
 }
 
 /* Particles */
@@ -109,80 +59,106 @@ button{
   pointer-events:none;
   user-select:none;
 }
+
+/* Message */
+#msg{
+  display:none;
+  margin-top:25px;
+  color:white;
+  font-size:18px;
+  text-shadow:0 0 12px rgba(255,80,150,0.6);
+}
+
+/* Button */
+#btn{
+  display:none;
+  margin-top:12px;
+  padding:12px 26px;
+  border:none;
+  border-radius:18px;
+  background:#ff7bcf;
+  color:white;
+  font-size:16px;
+  box-shadow:0 6px 18px rgba(255,120,170,0.22);
+}
 </style>
 </head>
 
 <body>
 
-<h1>Tap the gift 🎁</h1>
+<h1>Tap the Gift 🎁</h1>
 
-<div class="box-wrap" id="boxWrap">
-  <div class="glow"></div>
-  <div id="lid"></div>
-  <div id="giftEmoji">🎁</div>
-</div>
+<div id="giftBox">🎁</div>
 
-<div id="msg">💗 Sofii, my cutest and kindest sister…<br>
+<div id="msg">
+💗 Sofii, my cutest and kindest sister…<br>
 You bring sunshine wherever you go.<br>
 Thank you for being such a pure, soft, warm-hearted soul.<br>
-I hope your birthday is as magical as you are. ✨</div>
+I hope your birthday is as magical as you are. ✨
+</div>
 
-<button onclick="location.href='wish.html'" id="wishBtn">Make a Wish 💖</button>
+<button id="btn" onclick="location.href='wish.html'">Make a Wish 💖</button>
 
 <script>
-const lid = document.getElementById("lid");
+const box = document.getElementById("giftBox");
 const msg = document.getElementById("msg");
-const btn = document.getElementById("wishBtn");
-const boxWrap = document.getElementById("boxWrap");
+const btn = document.getElementById("btn");
 
 let opened = false;
 
-/* particle function */
-function spawn(ch, x, y, size){
-  let el = document.createElement("div");
-  el.className="particle";
-  el.innerHTML=ch;
-  el.style.left=x+"px";
-  el.style.top=y+"px";
-  el.style.fontSize=size+"px";
+/* particle spawner */
+function spawn(emoji, x, y, size, duration){
+  const el = document.createElement("div");
+  el.className = "particle";
+  el.innerHTML = emoji;
+  el.style.left = x + "px";
+  el.style.top = y + "px";
+  el.style.fontSize = size + "px";
+
   document.body.appendChild(el);
 
-  el.animate([
-    {transform:"translate(0,0)", opacity:1},
-    {transform:`translate(${(Math.random()*200-100)}px, -${150+Math.random()*150}px) scale(1.4)`, opacity:0}
-  ], {duration:2500, easing:"ease-out"});
+  const dx = (Math.random()*200 - 100);
+  const dy = -(150 + Math.random()*140);
 
-  setTimeout(()=>el.remove(),2600);
+  el.animate([
+    {transform: "translate(0,0) scale(1)", opacity: 1},
+    {transform: `translate(${dx}px, ${dy}px) scale(1.4)`, opacity: 0}
+  ], {duration, easing:"ease-out"});
+
+  setTimeout(()=>el.remove(), duration+50);
 }
 
-/* open animation */
-boxWrap.onclick = () => {
+box.addEventListener("click", ()=>{
+
   if(opened) return;
   opened = true;
 
-  // open lid
-  lid.style.transform="translateX(-50%) rotateX(70deg) translateY(-8px)";
+  /* 🎉 NEW BOUNCE EFFECT */
+  box.classList.add("bounce");
 
-  // play sound
+  /* remove bounce after animation so it works every time */
+  setTimeout(()=> box.classList.remove("bounce"), 700);
+
+  /* Sound */
   new Audio("https://files.catbox.moe/6d0v0c.mp3").play().catch(()=>{});
 
-  // particles
-  const rect = boxWrap.getBoundingClientRect();
+  /* Particle explosion */
+  const rect = box.getBoundingClientRect();
   const cx = rect.left + rect.width/2;
-  const cy = rect.top + 40;
+  const cy = rect.top + rect.height/2;
 
-  for(let i=0;i<35;i++){
+  for(let i=0;i<40;i++){
     const r = Math.random();
-    if(r<0.4) spawn("✨",cx,cy,20+Math.random()*10);
-    else if(r<0.75) spawn("💗",cx,cy,22+Math.random()*12);
-    else spawn("🦋",cx,cy,26+Math.random()*14);
+    if(r<0.4) spawn("✨",cx,cy,20+Math.random()*10,2000);
+    else if(r<0.75) spawn("💗",cx,cy,22+Math.random()*10,2500);
+    else spawn("🦋",cx,cy,28+Math.random()*14,3000);
   }
 
   setTimeout(()=>{
-    msg.style.display="block";
-    btn.style.display="inline-block";
-  },700);
-}
+    msg.style.display = "block";
+    btn.style.display = "inline-block";
+  },750);
+});
 </script>
 
 </body>
