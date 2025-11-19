@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Surprise 🎁</title>
+<title>Ultra Surprise 🎀</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -18,58 +18,224 @@ body {
     text-align: center;
 }
 
-#gift {
-    font-size: 70px;
-    animation: bounce 1.2s infinite;
+/* Soft glitter fog */
+.fog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 140%;
+    height: 140%;
+    background: url('https://i.imgur.com/TnH1Kkj.png');
+    background-size: cover;
+    opacity: 0.25;
+    animation: fogMove 25s infinite linear;
+    pointer-events: none;
+    filter: blur(3px);
 }
 
-@keyframes bounce {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
-    100% { transform: translateY(0); }
+@keyframes fogMove {
+    from { transform: translate(-40px, -40px); }
+    to   { transform: translate(40px, 40px); }
 }
 
-.balloon {
+/* 3D Gift Box */
+#giftContainer {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    cursor: pointer;
+    animation: glowPulse 2s infinite ease-in-out;
+    margin-top: 40px;
+}
+
+@keyframes glowPulse {
+    0% { filter: drop-shadow(0 0 12px #ff8acb); }
+    50%{ filter: drop-shadow(0 0 22px #ff5eb6); }
+    100%{ filter: drop-shadow(0 0 12px #ff8acb); }
+}
+
+.box-body {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(160deg, #ff5fa2, #ff88c7);
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(255, 90, 160, 0.5);
+    position: absolute;
+    bottom: 0;
+}
+
+.box-lid {
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(160deg, #ff3d8e, #ff6fb3);
+    border-radius: 20px 20px 14px 14px;
+    position: absolute;
+    top: -55px;
+    transform-origin: center bottom;
+    transition: 0.6s ease-out;
+}
+
+.ribbonV {
+    width: 24px;
+    height: 180px;
+    background: rgba(255,255,255,0.7);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+}
+
+.ribbonH {
+    height: 24px;
+    width: 180px;
+    background: rgba(255,255,255,0.7);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 10px;
+}
+
+.lid-open {
+    transform: rotateX(130deg) translateY(-20px);
+}
+
+/* Sparkles */
+.sparkle {
+    position: absolute;
+    font-size: 24px;
+    color: #fff;
+    text-shadow: 0 0 15px #ff8bcc;
+    animation: sparkleFloat 2s linear forwards;
+}
+
+@keyframes sparkleFloat {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to   { opacity: 0; transform: translateY(-150px) scale(1.6); }
+}
+
+/* Butterflies */
+.butterfly {
     position: absolute;
     font-size: 40px;
-    animation: rise 5s linear infinite;
+    animation: flap 4s ease-in-out forwards;
 }
 
-@keyframes rise {
-    from { transform: translateY(150px); opacity: 1; }
-    to   { transform: translateY(-600px); opacity: 0; }
+@keyframes flap {
+    0% { transform: translateY(0) rotate(0deg); opacity:1; }
+    50%{ transform: translateY(-60px) rotate(10deg); opacity:1; }
+    100%{ transform: translateY(-140px) rotate(-5deg); opacity:0; }
 }
 
+/* Hearts */
+.heart {
+    position: absolute;
+    font-size: 30px;
+    animation: heartRise 4s ease-in-out forwards;
+}
+
+@keyframes heartRise {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100%{ opacity: 0; transform: translateY(-200px) scale(1.4); }
+}
+
+/* Message */
 #msg {
-    font-size: 22px;
-    color: white;
-    text-shadow: 0 0 10px #ff69b4;
+    margin-top: 25px;
+    font-size: 26px;
+    color: #fff;
+    text-shadow: 0 0 14px #ff4da6;
+    font-weight: bold;
     display: none;
+    animation: fadeText 1.8s ease forwards;
+}
+
+@keyframes fadeText {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Button */
+button {
     margin-top: 20px;
+    padding: 12px 30px;
+    background: #ff7bbf;
+    border-radius: 20px;
+    color: white;
+    font-size: 17px;
+    border: none;
+    display: none;
+    box-shadow: 0 0 18px #ff8acb;
 }
 </style>
 
 </head>
 <body>
 
-<div id="gift" onclick="showSurprise()">🎁</div>
-<p>Tap the gift!</p>
+<div class="fog"></div>
 
-<div id="msg">🎀 You are the cutest sister ever, Sofii! 💗  
-Wishing you all the happiness in the world! 🎀✨</div>
+<h2 style="color:white; text-shadow:0 0 14px #ff6fb0; font-size:24px;">
+    Tap the magical gift box 🎀
+</h2>
+
+<div id="giftContainer" onclick="openSuperGift()">
+    <div class="box-body"></div>
+    <div class="box-lid" id="boxLid"></div>
+    <div class="ribbonV"></div>
+    <div class="ribbonH"></div>
+</div>
+
+<div id="msg">✨ Sofii, your smile makes the world prettier 💗<br>
+You deserve magic, love & happiness always! ✨</div>
+
+<button id="nextBtn" onclick="location.href='wish.html'">Make a Wish 💖</button>
 
 <script>
-function showSurprise() {
-    document.getElementById("msg").style.display = "block";
+function openSuperGift() {
 
-    for(let i=0; i<25; i++){
-        let b = document.createElement("div");
-        b.className = "balloon";
-        b.innerHTML = "🎈";
-        b.style.left = Math.random()*100 + "%";
-        document.body.appendChild(b);
-        setTimeout(()=>{ b.remove(); }, 5000);
+    // Lid opens
+    document.getElementById("boxLid").classList.add("lid-open");
+
+    // Soft magical chime
+    new Audio("https://files.catbox.moe/6d0v0c.mp3").play().catch(()=>{});
+
+    // Sparkles
+    for (let i=0; i<40; i++){
+        let sp = document.createElement("div");
+        sp.className = "sparkle";
+        sp.innerHTML = "✨";
+        sp.style.left = (window.innerWidth/2 + (Math.random()*200 - 100)) + "px";
+        sp.style.top = "260px";
+        document.body.appendChild(sp);
+        setTimeout(()=>sp.remove(), 2500);
     }
+
+    // Hearts
+    for (let i=0; i<50; i++){
+        let h = document.createElement("div");
+        h.className = "heart";
+        h.innerHTML = "💗";
+        h.style.left = Math.random()*100 + "vw";
+        h.style.top = "250px";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(), 3000);
+    }
+
+    // Butterflies
+    for (let i=0; i<12; i++){
+        let b = document.createElement("div");
+        b.className = "butterfly";
+        b.innerHTML = "🦋";
+        b.style.left = Math.random()*100 + "vw";
+        b.style.top = "260px";
+        document.body.appendChild(b);
+        setTimeout(()=>b.remove(), 3500);
+    }
+
+    // Show message + button
+    setTimeout(()=>{
+        document.getElementById("msg").style.display = "block";
+        document.getElementById("nextBtn").style.display = "inline-block";
+    }, 900);
 }
 </script>
 
