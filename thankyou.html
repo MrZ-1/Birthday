@@ -5,91 +5,89 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-  margin: 0;
-  background: linear-gradient(135deg, #ffb6da, #ffd7ef);
-  height: 100vh;
-  overflow: hidden;
-  font-family: "Comic Sans MS";
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
+:root{
+  --bg1:#ffdde9;
+  --bg2:#ffd1ec;
+}
+html,body{height:100%;margin:0;padding:0;}
+
+body{
+  font-family:"Comic Sans MS", system-ui;
+  background: linear-gradient(135deg,var(--bg1),var(--bg2));
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  overflow:hidden;
 }
 
-/* Floating hearts */
-.heart {
-  position: absolute;
-  font-size: 30px;
-  animation: floatUp 4s ease-in-out forwards;
-}
-@keyframes floatUp {
-  0% { opacity:1; transform: translateY(0) scale(1); }
-  100% { opacity:0; transform: translateY(-160px) scale(1.6); }
+/* Container */
+.container{
+  max-width:600px;
+  padding:24px;
 }
 
-/* Butterflies */
-.butterfly {
-  position: absolute;
-  font-size: 40px;
-  animation: flyUp 4.5s ease-out forwards;
-}
-@keyframes flyUp {
-  0% { opacity:1; transform: translateY(0) rotate(0deg); }
-  100% { opacity:0; transform: translateY(-180px) rotate(14deg); }
+/* Heading */
+#title{
+  font-size:30px;
+  color:white;
+  text-shadow:0 0 18px rgba(255,80,150,0.6);
+  margin-bottom:10px;
 }
 
-/* Message */
-#thanks {
-  font-size: 26px;
-  color: white;
-  text-shadow: 0 0 14px #ff74c5;
-  margin-bottom: 10px;
-  animation: fadeIn 1.6s ease forwards;
+/* Sub text */
+#sub{
+  font-size:18px;
+  color:#ffeaf7;
+  margin-bottom:22px;
 }
 
-#sub {
-  font-size: 18px;
-  color: #ffe6f6;
-  animation: fadeIn 2.3s ease forwards;
+/* Floating particles */
+.particle{
+  position:fixed;
+  pointer-events:none;
+  user-select:none;
 }
 
-@keyframes fadeIn {
-  from { opacity:0; transform: translateY(30px); }
-  to   { opacity:1; transform: translateY(0); }
+@keyframes rise{
+  0%   {transform:translateY(0) scale(1); opacity:1}
+  100% {transform:translateY(-180px) scale(1.4); opacity:0}
+}
+
+.heart{
+  font-size:32px;
+  animation: rise 4s linear forwards;
+}
+
+.butter{
+  font-size:40px;
+  animation: rise 4.8s linear forwards;
 }
 </style>
-
 </head>
+
 <body>
 
-<h2 id="thanks">💖 Thank You, Sofii 💖</h2>
-<p id="sub">Your wish has been received…  
-<br>and it’s now stored safely in the stars ✨</p>
+<div class="container">
+  <div id="title">💖 Thank You, Sofii!</div>
+  <div id="sub">Your wish has been received — and kept safe in the stars ✨</div>
+  <div style="font-size:70px;">🌟</div>
+</div>
 
 <script>
-// hearts
-setInterval(() => {
-  let h = document.createElement("div");
-  h.className = "heart";
-  h.innerHTML = "💗";
-  h.style.left = Math.random() * 100 + "vw";
-  h.style.top = "65vh";
-  document.body.appendChild(h);
-  setTimeout(() => h.remove(), 4000);
-}, 500);
+/* Spawn particles */
+function spawnParticle(emoji, cls){
+  const el = document.createElement("div");
+  el.className = cls + " particle";
+  el.innerHTML = emoji;
+  el.style.left = Math.random()*100 + "vw";
+  el.style.bottom = "-8vh";
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(), 4500);
+}
 
-// butterflies
-setInterval(() => {
-  let b = document.createElement("div");
-  b.className = "butterfly";
-  b.innerHTML = "🦋";
-  b.style.left = Math.random() * 100 + "vw";
-  b.style.top = "70vh";
-  document.body.appendChild(b);
-  setTimeout(() => b.remove(), 4500);
-}, 800);
+setInterval(()=>{ spawnParticle("💗","heart"); }, 600);
+setInterval(()=>{ spawnParticle("🦋","butter"); }, 900);
 </script>
 
 </body>
