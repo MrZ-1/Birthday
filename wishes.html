@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Make a Wish 🎀</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    background: linear-gradient(135deg, #ffb6da, #ffd7ef);
+    height: 100vh;
+    font-family: "Comic Sans MS";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Card */
+.card {
+    background: white;
+    width: 90%;
+    max-width: 360px;
+    padding: 25px;
+    border-radius: 22px;
+    box-shadow: 0 0 30px rgba(255,115,185,0.4);
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(30px);}
+    to   {opacity: 1; transform: translateY(0);}
+}
+
+textarea {
+    width: 90%;
+    height: 140px;
+    border-radius: 15px;
+    border: 2px solid #ff8ecb;
+    padding: 12px;
+    font-size: 16px;
+    background: #ffe6f4;
+    resize: none;
+    outline: none;
+}
+
+button {
+    margin-top: 15px;
+    padding: 12px 30px;
+    background: #ff7bbf;
+    color: white;
+    border: none;
+    border-radius: 18px;
+    font-size: 17px;
+    box-shadow: 0 0 10px #ff88cc;
+}
+
+#popup {
+    display: none;
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff8acb;
+    padding: 12px 20px;
+    color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 12px #ff5fa2;
+    font-size: 18px;
+    animation: pop 1.4s ease-out forwards;
+}
+
+@keyframes pop {
+    0% {transform: translate(-50%, 30px); opacity: 0;}
+    30% {transform: translate(-50%, 0); opacity: 1;}
+    100% {transform: translate(-50%, 0); opacity: 0;}
+}
+</style>
+
+</head>
+<body>
+
+<div class="card">
+    <h2>🎀 Make a Birthday Wish, Sofii 🎀</h2>
+    <p style="color:#83315c;">Write a special wish… it will secretly go to the stars 💗</p>
+
+    <textarea id="wishBox" placeholder="Type your wish here..."></textarea>
+
+    <button onclick="submitWish()">✨ Submit Wish ✨</button>
+</div>
+
+<div id="popup">Your wish has been received, princess! 💖✨</div>
+
+<script>
+async function submitWish() {
+    let wish = document.getElementById("wishBox").value;
+
+    if (wish.trim() === "") {
+        alert("Please write your wish first 💗");
+        return;
+    }
+
+    // SHOW POPUP
+    const p = document.getElementById("popup");
+    p.style.display = "block";
+    setTimeout(() => { p.style.display = "none"; }, 1800);
+
+    // GITHUB SETTINGS --------------------
+    const token = "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";  // <--- paste your token HERE
+    const repo = "MrZ-1/Birthday";
+    const filePath = "wishes.txt";
+    const apiUrl = `https://api.github.com/repos/${repo}/contents/${filePath}`;
+    // ------------------------------------
+
+    // GET EXISTING CONTENT
+    const getFile = await fetch(apiUrl, {
+        headers: { Authorization: `token ${token}` }
+    });
+    const fileData = await getFile.json();
+
+    const oldContent = atob(fileData.content);
+    const newContent = oldContent + `\nWish: ${wish} (submitted at ${new Date().toLocaleString()})`;
+
+    // UPDATE FILE
+    await fetch(apiUrl, {
+        method: "PUT",
+        headers: {
+            Authorization: `token ${token}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            message: "New wish added",
+            content: btoa(newContent),
+            sha: fileData.sha
+        })
+    });
+
+    // CLEAR BOX
+    document.getElementById("wishBox").value = "";
+}
+</script>
+
+</body>
+</html>
