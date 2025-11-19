@@ -3,148 +3,68 @@
 <head>
 <title>Make a Wish 🎀</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-body {
-    margin: 0;
-    background: linear-gradient(135deg, #ffb6da, #ffd7ef);
-    height: 100vh;
-    font-family: "Comic Sans MS";
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    overflow: hidden;
+:root{--bg1:#ffdde9;--bg2:#ffd1ec}
+html,body{height:100%; margin:0}
+body{
+  font-family:"Comic Sans MS",system-ui;
+  background: linear-gradient(135deg,var(--bg1),var(--bg2));
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  padding:24px; box-sizing:border-box;
 }
-
-/* Card */
-.card {
-    background: white;
-    width: 90%;
-    max-width: 360px;
-    padding: 25px;
-    border-radius: 22px;
-    box-shadow: 0 0 30px rgba(255,115,185,0.4);
-    animation: fadeIn 1s ease-out;
+.card{
+  width:100%; max-width:420px; background:white; border-radius:18px;
+  padding:22px; box-shadow:0 18px 50px rgba(255,120,170,0.14);
 }
-
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(30px);}
-    to   {opacity: 1; transform: translateY(0);}
+h2{color:#ff4d9d; margin:0 0 8px}
+textarea{
+  width:100%; min-height:140px; border-radius:12px; border:2px solid #ffd1e8;
+  padding:12px; font-size:16px; resize:none; background:#fff6fb; outline:none;
 }
-
-/* Textbox */
-textarea {
-    width: 90%;
-    height: 140px;
-    border-radius: 15px;
-    border: 2px solid #ff8ecb;
-    padding: 12px;
-    font-size: 16px;
-    background: #ffe6f4;
-    resize: none;
-    outline: none;
+.btn{
+  margin-top:12px; background:linear-gradient(180deg,#ff7bbf,#ff5aa6); color:#fff;
+  border:none; padding:12px 22px; border-radius:14px; font-size:16px;
+  box-shadow:0 10px 26px rgba(255,100,160,0.18);
 }
-
-/* Button */
-button {
-    margin-top: 15px;
-    padding: 12px 30px;
-    background: #ff7bbf;
-    color: white;
-    border: none;
-    border-radius: 18px;
-    font-size: 17px;
-    box-shadow: 0 0 10px #ff88cc;
+#popup{
+  display:none; position:fixed; left:50%; transform:translateX(-50%); bottom:60px;
+  background:#ff8acb; color:#fff; padding:10px 18px; border-radius:12px;
+  box-shadow:0 10px 30px rgba(255,80,150,0.18);
 }
-
-/* Popup */
-#popup {
-    display: none;
-    position: fixed;
-    bottom: 60px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #ff8acb;
-    padding: 12px 20px;
-    color: white;
-    border-radius: 15px;
-    box-shadow: 0 0 12px #ff5fa2;
-    font-size: 18px;
-    animation: pop 1.4s ease-out forwards;
-}
-
-@keyframes pop {
-    0% {transform: translate(-50%, 30px); opacity: 0;}
-    30% {transform: translate(-50%, 0); opacity: 1;}
-    100% {transform: translate(-50%, 0); opacity: 0;}
-}
-
-/* Hearts */
-.heart {
-    position: absolute;
-    color: #ff90cf;
-    font-size: 24px;
-    animation: floatUp 3s linear forwards;
-}
-
-@keyframes floatUp {
-    from {opacity: 1; transform: translateY(0);}
-    to   {opacity: 0; transform: translateY(-200px);}
+.small{
+  color:#a0527c; font-size:14px; margin-top:8px;
 }
 </style>
-
 </head>
 <body>
 
 <div class="card">
-    <h2>🎀 Make a Birthday Wish, Sofii 🎀</h2>
-    <p style="color:#83315c;">Write a special wish below…<br>and let the universe hear it 💖</p>
+  <h2>🎀 Make a Birthday Wish, Sofii</h2>
+  <p class="small">Write one special wish — it will be sent privately.</p>
 
-    <form id="wishForm" action="https://formsubmit.co/nobracegaming@gmail.com" method="POST">
-        
-        <!-- Prevent bot submissions -->
-        <input type="hidden" name="_captcha" value="false">
-
-        <!-- Redirect back to surprise page after sending -->
-        <input type="hidden" name="_next" value="https://mrz-1.github.io/Birthday/surprise.html">
-
-        <!-- The actual wish -->
-        <textarea name="wish" id="wishBox" placeholder="Type your wish here..."></textarea>
-
-        <button type="submit" onclick="wishSent()">✨ Submit Wish ✨</button>
-    </form>
+  <form id="wishForm" action="https://formsubmit.co/nobracegaming@gmail.com" method="POST" onsubmit="return handleSubmit(event)">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" value="https://mrz-1.github.io/Birthday/thankyou.html">
+    <textarea id="wishBox" name="wish" placeholder="Type your wish here..."></textarea>
+    <button class="btn" type="submit">✨ Submit Wish ✨</button>
+  </form>
 </div>
 
-<div id="popup">Your wish is sent to the stars, princess! 💖✨</div>
+<div id="popup">Sending your wish… ✨</div>
 
 <script>
-function wishSent() {
-    let wish = document.getElementById("wishBox").value;
+function handleSubmit(e){
+  const t = document.getElementById('wishBox').value.trim();
+  if(!t){ alert('Please write your wish first 💗'); e.preventDefault(); return false; }
 
-    if (wish.trim() === "") {
-        alert("Please write your wish first 💗");
-        event.preventDefault();
-        return false;
-    }
+  // show popup and let form submit continue (FormSubmit redirects to thankyou)
+  const pop = document.getElementById('popup');
+  pop.style.display='block';
+  setTimeout(()=>{ pop.style.display='none'; },1400);
 
-    const p = document.getElementById("popup");
-    p.style.display = "block";
-    setTimeout(() => { p.style.display = "none"; }, 2000);
-
-    // Hearts animation
-    for (let i = 0; i < 15; i++) {
-        let h = document.createElement("div");
-        h.className = "heart";
-        h.innerHTML = "💗";
-        h.style.left = Math.random() * 100 + "vw";
-        h.style.top = "90vh";
-        h.style.fontSize = (20 + Math.random()*20) + "px";
-        document.body.appendChild(h);
-        setTimeout(() => h.remove(), 3000);
-    }
+  // allow browser to submit normally
+  return true;
 }
 </script>
-
 </body>
 </html>
