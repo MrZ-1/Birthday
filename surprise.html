@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Surprise 🎀</title>
+<title>Surprise 🎁</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -18,96 +18,36 @@ body {
     text-align: center;
 }
 
-/* Soft Fog */
-.fog {
-    position: fixed;
-    top: 0; left: 0;
-    width: 200%; height: 200%;
-    background: url('https://i.imgur.com/TnH1Kkj.png');
-    opacity: .18;
-    animation: fogMove 30s linear infinite;
-    pointer-events: none;
-}
-@keyframes fogMove {
-    from { transform: translate(-50px,-50px); }
-    to   { transform: translate(50px,50px); }
-}
-
-/* ORIGINAL 3D PINK GIFT BOX (WITH LAVENDER LID) */
-#giftContainer {
-    position: relative;
-    width: 170px;
-    height: 170px;
+#giftBox {
+    font-size: 120px;
     cursor: pointer;
-    animation: softGlow 2s infinite alternate;
-}
-@keyframes softGlow {
-    0% { filter: drop-shadow(0 0 8px #ff8acb); }
-    100% { filter: drop-shadow(0 0 18px #ff5eb6); }
+    animation: glow 2s infinite alternate;
+    margin-top: 30px;
 }
 
-.box-body {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(150deg, #ff63b0, #ff8ecf);
-    border-radius: 20px;
-    position: absolute;
-    box-shadow: 0 8px 25px rgba(255, 100, 180, 0.5);
-}
-
-/* 🌸 LAVENDER LID 🌸 */
-.box-lid {
-    width: 100%;
-    height: 60px;
-    background: linear-gradient(150deg, #c79bff, #e0b7ff);
-    border-radius: 20px 20px 12px 12px;
-    position: absolute;
-    top: -55px;
-    transform-origin: bottom;
-    transition: 0.6s ease;
-}
-
-.lid-open {
-    transform: rotateX(135deg) translateY(-15px);
-}
-
-/* Ribbons */
-.ribbonV, .ribbonH {
-    background: rgba(255,255,255,0.8);
-    position: absolute;
-    border-radius: 12px;
-}
-.ribbonV {
-    width: 22px;
-    height: 170px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-.ribbonH {
-    width: 170px;
-    height: 22px;
-    top: 50%;
-    transform: translateY(-50%);
+@keyframes glow {
+    0% { filter: drop-shadow(0 0 8px #ff80c4); }
+    100% { filter: drop-shadow(0 0 18px #ff4fae); }
 }
 
 /* Sparkles */
 .sparkle {
     position: absolute;
-    font-size: 24px;
+    font-size: 26px;
     animation: rise 2s ease-out forwards;
 }
 @keyframes rise {
-    from { opacity: 1; transform: translateY(0) scale(1); }
-    to   { opacity: 0; transform: translateY(-160px) scale(1.5); }
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-160px) scale(1.6); }
 }
 
 /* Hearts */
 .heart {
     position: absolute;
-    font-size: 30px;
-    animation: heartUp 3.5s ease forwards;
+    font-size: 32px;
+    animation: floatHeart 3s ease forwards;
 }
-@keyframes heartUp {
+@keyframes floatHeart {
     from { opacity: 1; transform: translateY(0) scale(1); }
     to   { opacity: 0; transform: translateY(-200px) scale(1.4); }
 }
@@ -120,20 +60,20 @@ body {
 }
 @keyframes flutter {
     from { transform: translateY(0); opacity:1; }
-    to   { transform: translateY(-160px) rotate(14deg); opacity:0; }
+    to   { transform: translateY(-140px) rotate(14deg); opacity:0; }
 }
 
 /* Message */
 #msg {
-    margin-top: 20px;
+    margin-top: 25px;
     font-size: 24px;
     color: #fff;
     text-shadow: 0 0 12px #ff4ea9;
     display: none;
-    animation: fadeIn 1.3s ease forwards;
+    animation: fadeIn 1.4s ease forwards;
 }
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(25px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -154,20 +94,14 @@ button {
 </head>
 <body>
 
-<div class="fog"></div>
-
 <h2 style="color:white; text-shadow:0 0 12px #ff6fb0;">
-    Tap the Gift Box 🎁✨
+    Tap the Gift 🎁
 </h2>
 
-<div id="giftContainer" onclick="openGift()">
-    <div class="box-body"></div>
-    <div class="box-lid" id="boxLid"></div>
-    <div class="ribbonV"></div>
-    <div class="ribbonH"></div>
-</div>
+<!-- Emoji Gift Box -->
+<div id="giftBox" onclick="openGift()">🎁</div>
 
-<!-- Sister message -->
+<!-- Sister Message -->
 <div id="msg">💗 Sofii, my cutest and kindest sister…<br>
 You bring sunshine wherever you go.<br>
 Thank you for being such a pure, soft, warm-hearted soul.<br>
@@ -178,46 +112,46 @@ I hope your birthday is as magical as you are. ✨</div>
 <script>
 function openGift() {
 
-    document.getElementById("boxLid").classList.add("lid-open");
-
     new Audio("https://files.catbox.moe/6d0v0c.mp3").play().catch(()=>{});
+    if (navigator.vibrate) navigator.vibrate(60);
 
-    if (navigator.vibrate) navigator.vibrate(80);
-
-    for (let i=0; i<40; i++){
+    // Sparkles
+    for (let i=0; i<45; i++){
         let s=document.createElement("div");
         s.className="sparkle";
         s.innerHTML="✨";
         s.style.left=Math.random()*100+"vw";
-        s.style.top="260px";
+        s.style.top="300px";
         document.body.appendChild(s);
         setTimeout(()=>s.remove(),2000);
     }
 
-    for (let i=0; i<40; i++){
+    // Hearts
+    for (let i=0; i<50; i++){
         let h=document.createElement("div");
         h.className="heart";
         h.innerHTML="💗";
         h.style.left=Math.random()*100+"vw";
-        h.style.top="260px";
+        h.style.top="300px";
         document.body.appendChild(h);
         setTimeout(()=>h.remove(),3000);
     }
 
-    for (let i=0; i<10; i++){
+    // Butterflies
+    for (let i=0; i<12; i++){
         let b=document.createElement("div");
         b.className="butterfly";
         b.innerHTML="🦋";
         b.style.left=Math.random()*100+"vw";
-        b.style.top="260px";
+        b.style.top="300px";
         document.body.appendChild(b);
         setTimeout(()=>b.remove(),3500);
     }
 
     setTimeout(()=>{
-        nextBtn.style.display="inline-block";
         msg.style.display="block";
-    },800);
+        nextBtn.style.display="inline-block";
+    },900);
 }
 </script>
 
