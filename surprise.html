@@ -69,17 +69,23 @@ h2 {
     margin-top: 10px;
 }
 
-/* Replay button */
-.replay {
+/* Make a Wish button */
+.wish-btn {
     margin-top: 25px;
-    padding: 14px 30px;
+    padding: 14px 32px;
     background: #ff40b0;
     color: white;
-    font-size: 17px;
+    font-size: 18px;
     border: none;
     border-radius: 20px;
     box-shadow: 0 0 20px #ff4dc1;
     cursor: pointer;
+    transition: .25s;
+}
+
+.wish-btn:active {
+    transform: scale(.92);
+    box-shadow: 0 0 30px rgba(255, 80, 180, .9);
 }
 
 /* Confetti */
@@ -121,7 +127,7 @@ h2 {
     <canvas class="confetti" id="confetti"></canvas>
 
     <div class="message-box">
-        <img src="IMG_8988.jpeg" class="panda">
+        <img src="panda.png" class="panda">
 
         <div id="msg">
             💗 Sofii, my cutest and kindest sister…<br>
@@ -131,7 +137,7 @@ h2 {
         </div>
     </div>
 
-    <button class="replay" onclick="location.reload()">↻ Replay</button>
+    <button class="wish-btn" onclick="location.href='wish.html'">🌟 Make a Wish</button>
 </div>
 
 <script>
@@ -141,7 +147,7 @@ function openGift() {
     startConfetti();
 }
 
-/* Confetti effect */
+/* Confetti */
 function startConfetti() {
     const canvas = document.getElementById("confetti");
     const ctx = canvas.getContext("2d");
